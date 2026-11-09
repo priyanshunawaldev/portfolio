@@ -1,0 +1,146 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap");
+
+/* Dark mode variables */
+:root {
+  --bg-primary: #0a0e27;
+  --bg-secondary: #1a1f3a;
+  --bg-tertiary: #252d45;
+  --text-primary: #e2e8f0;
+  --text-secondary: #cbd5e1;
+  --accent: #2dd4bf;
+  --accent-light: #14b8a6;
+  --border: #374151;
+}
+
+/* Light mode variables */
+:root.light {
+  --bg-primary: #faf8f3;
+  --bg-secondary: #f5f1e8;
+  --bg-tertiary: #ede8dd;
+  --text-primary: #1a1a1a;
+  --text-secondary: #4a4a4a;
+  --accent: #0ea5a5;
+  --accent-light: #0d9488;
+  --border: #d4cfc4;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 50%, var(--bg-tertiary) 100%);
+    background-attachment: fixed;
+    color: var(--text-primary);
+    font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+    background-image:
+      url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' /%3E%3C/filter%3E%3Crect width='100' height='100' fill='%23000' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E"),
+      linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 50%, var(--bg-tertiary) 100%);
+    background-attachment: fixed;
+  }
+
+  h1, h2, h3 {
+    font-family: "JetBrains Mono", ui-monospace, Menlo, monospace;
+    font-weight: 700;
+  }
+
+  .mono {
+    font-family: "JetBrains Mono", ui-monospace, Menlo, monospace;
+  }
+
+  section {
+    padding: 6rem 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 20% 50%, rgba(45, 212, 191, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+  }
+}
+
+@layer components {
+  .container-custom {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .btn-primary {
+    @apply bg-accent text-bg-primary px-6 py-3 rounded-lg font-semibold mono text-sm hover:bg-accent-light transition-all transform hover:scale-105 active:scale-95 focus:ring-2 focus:ring-offset-2 focus:ring-accent;
+  }
+
+  .btn-secondary {
+    @apply border border-accent text-accent px-6 py-3 rounded-lg font-semibold mono text-sm hover:bg-accent/10 transition-all focus:ring-2 focus:ring-offset-2 focus:ring-accent;
+  }
+
+  .card-glass {
+    @apply bg-bg-secondary/40 backdrop-blur-md border border-border rounded-xl p-6 transition-all duration-300 hover:border-accent/50 hover:bg-bg-secondary/60;
+  }
+
+  .text-gradient {
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .fade-in-up {
+    animation: fadeInUp 0.6s ease-out forwards;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slideInRight {
+    from {
+      opacity: 0;
+      transform: translateX(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  .slide-in-right {
+    animation: slideInRight 0.6s ease-out forwards;
+  }
+
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  .float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
