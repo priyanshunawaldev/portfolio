@@ -1,6 +1,48 @@
-node_modules
+# Dependencies
+node_modules/
+
+# Production build artifacts
+dist/
+dist-ssr/
+
+# Environment and secrets
 .env
+.env.local
+.env.*.local
+
+# Logs
 *.log
-dist
-dist-ssr
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Local OS files
+.DS_Store
+Thumbs.db
 *.local
+
+# Project planning, instructions & todos (Keep local only)
+PLAN.md
+*PLAN*.md
+SCAFFOLD.md
+todos.md
+*TODO*.md
+*.instructions.md
+prototype/
+_frames/
+*.mp4
+
+# AI agents, assistants, skills & tools (Keep local only)
+.agents/
+.claude/
+.gemini/
+.ai/
+.cursor/
+.windsurf/
+.copilot/
+skills-lock.json
+AGENTS.md
+CLAUDE.md
+GEMINI.md
+*.agent.md
