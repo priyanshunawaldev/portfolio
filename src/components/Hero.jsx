@@ -1,87 +1,181 @@
-import { useEffect, useRef } from "react";
-import { capturePageView } from "../lib/posthog.js";
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { capturePageView, captureDownload } from "../lib/posthog";
+import { GithubIcon, LinkedinIcon } from "./icons";
+import { FileText, ArrowUpRight, ArrowDown } from "lucide-react";
+import { PERSONAL_INFO } from "../data/portfolioContent";
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 16 },
+  visible: (i = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+      ease: [0.22, 1, 0.36, 1],
+      delay: i * 0.08,
+    },
+  }),
+};
 
 export default function Hero() {
-  const heroRef = useRef(null);
+  const [imgError, setImgError] = useState(false);
 
   useEffect(() => {
     capturePageView();
   }, []);
 
+  const scrollToProjects = (e) => {
+    e.preventDefault();
+    const el = document.getElementById("projects");
+    if (el) {
+      const topOffset = el.getBoundingClientRect().top + window.pageYOffset - 100;
+      window.scrollTo({ top: topOffset, behavior: "smooth" });
+    }
+  };
+
   return (
-    <section className="relative min-h-screen flex items-center pt-20 pb-0">
-      <div className="absolute inset-0 z-0">
-        {/* Animated background gradient */}
-        <div className="absolute inset-0 bg-gradient-to-br from-accent/10 via-transparent to-transparent opacity-40" />
-      </div>
+    <section
+      id="hero"
+      className="relative overflow-hidden"
+      style={{ minHeight: "100svh", paddingTop: "72px", paddingBottom: "12vh" }}
+    >
+      <div className="container-custom max-w-4xl h-full grid place-content-center text-center" style={{ minHeight: "calc(100svh - 72px - 12vh)" }}>
+        <div className="space-y-8 sm:space-y-10">
 
-      <div className="container-custom relative z-10 w-full">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          {/* Left side: headline + CTA */}
-          <div className="fade-in-up">
-            <span className="inline-block text-accent text-sm font-bold mono tracking-widest mb-6 opacity-80">
-              software developer
-            </span>
-            <h1 className="text-h1 text-text-primary font-black mb-6">
-              Priyanshu Nawal
-            </h1>
-            <p className="text-2xl text-text-secondary leading-relaxed mb-8 max-w-lg font-light">
-              Python engineer building distributed backend systems and AI tools.
-            </p>
-            <p className="text-lg text-text-secondary/70 mb-10 max-w-md leading-relaxed">
-              Real systems, real problems. PulseEngine. Prepwise. Reflex.
-            </p>
-            <div className="flex flex-wrap gap-4">
-              <a href="#projects" className="btn-primary">
-                View Projects
-              </a>
-              <a href="/Priyanshu_Nawal_Resume.pdf" className="btn-secondary">
-                Download Resume
-              </a>
-            </div>
-          </div>
-
-          {/* Right side: Photo with animation */}
-          <div className="flex justify-center items-center slide-in-right">
-            <div className="relative group">
-              {/* Animated background circle */}
-              <div className="absolute inset-0 bg-gradient-to-br from-accent via-accent-light to-accent rounded-full blur-2xl opacity-30 group-hover:opacity-50 transition-opacity duration-500 animate-float" />
-
-              {/* Photo container */}
-              <div className="relative z-10 w-80 h-80 lg:w-96 lg:h-96 rounded-3xl overflow-hidden border-2 border-accent/30 shadow-glow-lg group-hover:border-accent transition-all duration-500">
+          {/* Circular Portrait with Static Sage Gradient Backdrop */}
+          <motion.div
+            custom={0}
+            initial="hidden"
+            animate="visible"
+            variants={fadeUp}
+            className="inline-block mx-auto select-none"
+          >
+            <div
+              className="w-44 h-44 sm:w-52 sm:h-52 md:w-60 md:h-60 rounded-full overflow-hidden relative mx-auto"
+              style={{
+                background: "linear-gradient(145deg, #E4F1EA, #B9D8C8)",
+                border: "3px solid var(--bg-secondary)",
+                boxShadow: "0 0 0 1px var(--border), 0 12px 32px -12px rgb(0 0 0 / .25)",
+              }}
+            >
+              {!imgError ? (
                 <img
-                  ref={heroRef}
-                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&h=500&fit=crop"
-                  alt="Priyanshu Nawal"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  src="/portrait.png"
+                  alt={`Portrait of ${PERSONAL_INFO.name}`}
+                  onError={() => setImgError(true)}
+                  className="w-full h-full object-cover object-top relative z-10"
+                  loading="eager"
+                  decoding="async"
+                  style={{
+                    WebkitBackfaceVisibility: "hidden",
+                    backfaceVisibility: "hidden",
+                    transform: "translateZ(0)",
+                  }}
                 />
-                {/* Overlay gradient */}
-                <div className="absolute inset-0 bg-gradient-to-t from-bg-primary/40 via-transparent to-transparent" />
-              </div>
-
-              {/* Decorative elements */}
-              <div className="absolute -top-4 -right-4 w-32 h-32 bg-accent/10 rounded-full blur-3xl" />
-              <div className="absolute -bottom-4 -left-4 w-40 h-40 bg-accent/5 rounded-full blur-3xl" />
+              ) : (
+                <div className="w-full h-full flex flex-col items-center justify-center relative z-10 text-text-primary">
+                  <span className="text-4xl font-serif font-bold">PN</span>
+                  <span className="text-xs opacity-90 mt-1 font-sans">{PERSONAL_INFO.name}</span>
+                </div>
+              )}
             </div>
-          </div>
-        </div>
-      </div>
+          </motion.div>
 
-      {/* Scroll indicator */}
-      <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-20 animate-bounce">
-        <svg
-          className="w-6 h-6 text-accent"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M19 14l-7 7m0 0l-7-7m7 7V3"
-          />
-        </svg>
+          {/* Name + Tagline */}
+          <div className="space-y-4">
+            <motion.h1
+              custom={1}
+              initial="hidden"
+              animate="visible"
+              variants={fadeUp}
+              className="font-serif text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight text-text-primary leading-[1.08]"
+            >
+              {PERSONAL_INFO.name}
+            </motion.h1>
+
+            <motion.p
+              custom={2}
+              initial="hidden"
+              animate="visible"
+              variants={fadeUp}
+              className="font-sans text-lg sm:text-xl md:text-2xl text-text-secondary leading-relaxed font-normal max-w-2xl mx-auto"
+            >
+              Software Developer building{" "}
+              <span className="text-text-primary font-medium">full-stack web applications</span>,{" "}
+              dependable Python APIs, and practical developer tools.
+            </motion.p>
+
+            {/* Status line — not a boxed block */}
+            <motion.p
+              custom={3}
+              initial="hidden"
+              animate="visible"
+              variants={fadeUp}
+              className="text-sm sm:text-base text-text-secondary inline-flex flex-wrap items-center justify-center gap-x-2.5 gap-y-1.5"
+            >
+              <span className="inline-flex items-center gap-1.5 text-accent font-medium">
+                <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
+                Available immediately
+              </span>
+              <span className="text-border" aria-hidden="true">·</span>
+              <span>India · Open to Hybrid &amp; Relocation</span>
+              <span className="text-border" aria-hidden="true">·</span>
+              <span className="font-mono font-medium">Python · Full-Stack · React · FastAPI</span>
+            </motion.p>
+          </div>
+
+          {/* Action Bar: Resume (primary) + See Projects (secondary) + GitHub + LinkedIn */}
+          <motion.div
+            custom={4}
+            initial="hidden"
+            animate="visible"
+            variants={fadeUp}
+            className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 pt-2"
+          >
+            <a
+              href={PERSONAL_INFO.resumePath}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => captureDownload()}
+              className="btn-primary"
+            >
+              <FileText size={17} />
+              <span>Resume PDF</span>
+              <ArrowUpRight size={15} />
+            </a>
+
+            <a
+              href="#projects"
+              onClick={scrollToProjects}
+              className="btn-secondary"
+            >
+              <span>See Projects</span>
+              <ArrowDown size={16} className="text-accent" />
+            </a>
+
+            <a
+              href={PERSONAL_INFO.githubUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-4 py-2.5 min-h-[44px] rounded-xl border border-border/80 bg-bg-secondary/80 hover:bg-bg-secondary text-text-primary hover:text-accent font-medium text-sm transition-colors shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+            >
+              <GithubIcon size={17} />
+              <span>GitHub</span>
+            </a>
+
+            <a
+              href={PERSONAL_INFO.linkedinUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-4 py-2.5 min-h-[44px] rounded-xl border border-border/80 bg-bg-secondary/80 hover:bg-bg-secondary text-text-primary hover:text-accent font-medium text-sm transition-colors shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+            >
+              <LinkedinIcon size={17} />
+              <span>LinkedIn</span>
+            </a>
+          </motion.div>
+
+        </div>
       </div>
     </section>
   );

@@ -1,7 +1,0 @@
-# Place your hero portrait here as: hero-photo.jpg
-#
-# The site references it as /hero-photo.jpg.
-# If this file is missing at build time, the Hero component falls back to an initials avatar,
-# so the site still renders — but add your photo before going live.
-#
-# Recommended: a clear, professional headshot, roughly square, >= 600x600px.

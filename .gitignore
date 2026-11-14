@@ -9,6 +9,14 @@ dist-ssr/
 .env
 .env.local
 .env.*.local
+*.pem
+*.key
+*.cert
+*.crt
+credentials*.json
+service-account*.json
+*.token
+*.secret
 
 # Logs
 *.log
@@ -32,16 +40,29 @@ todos.md
 prototype/
 _frames/
 *.mp4
+*.mov
+*.webm
+*.avi
+*Screen Recording*
+*recording*
 
 # AI agents, assistants, skills & tools (Keep local only)
+scripts/
 .agents/
+.agent/
 .claude/
 .gemini/
 .ai/
 .cursor/
 .windsurf/
 .copilot/
+.impeccable/
+.taste-skill/
+.mcp.json
 skills-lock.json
+**/skills-lock.json
+**/skill-lock.json
+**/.skill-lock.json
 AGENTS.md
 CLAUDE.md
 GEMINI.md
