@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Sun, Moon, Menu, X, ArrowLeft, ArrowUpRight } from "lucide-react";
 import { useRouter } from "../lib/router";
 import { ALL_PROJECTS } from "../data/projectsData";
+import { PERSONAL_INFO } from "../data/portfolioContent";
 import { captureDownload } from "../lib/posthog";
 
 const NAV_LINKS = [
@@ -227,7 +228,7 @@ export default function Header({ isDark, onToggleTheme }) {
 
                 {/* Resume download quick link */}
                 <a
-                  href="/Priyanshu_Nawal_Resume.pdf"
+                  href={PERSONAL_INFO.resumePath || "/Priyanshu_Nawal_Resume.pdf"}
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => captureDownload()}
@@ -329,7 +330,7 @@ export default function Header({ isDark, onToggleTheme }) {
 
               <div className="pt-3 mt-2 border-t border-border/60">
                 <a
-                  href="/Priyanshu_Nawal_Resume.pdf"
+                  href={PERSONAL_INFO.resumePath || "/Priyanshu_Nawal_Resume.pdf"}
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => {

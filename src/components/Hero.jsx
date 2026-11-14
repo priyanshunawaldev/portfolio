@@ -38,40 +38,42 @@ export default function Hero() {
     <section
       id="hero"
       className="relative overflow-hidden"
-      style={{ minHeight: "100svh", paddingTop: "72px", paddingBottom: "12vh" }}
+      style={{ minHeight: "100svh", paddingTop: "clamp(96px, 12vh, 128px)", paddingBottom: "clamp(48px, 8vh, 80px)" }}
     >
-      <div className="container-custom max-w-4xl h-full grid place-content-center text-center" style={{ minHeight: "calc(100svh - 72px - 12vh)" }}>
-        <div className="space-y-8 sm:space-y-10">
+      <div className="container-custom max-w-4xl mx-auto flex flex-col items-center justify-center text-center" style={{ minHeight: "calc(100svh - clamp(96px, 12vh, 128px) - clamp(48px, 8vh, 80px))" }}>
+        <div className="space-y-6 sm:space-y-7">
 
-          {/* Circular Portrait with Static Sage Gradient Backdrop */}
+          {/* Circular Portrait with Static Sage Backdrop */}
           <motion.div
-            custom={0}
-            initial="hidden"
-            animate="visible"
-            variants={fadeUp}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
             className="inline-block mx-auto select-none"
           >
             <div
-              className="w-44 h-44 sm:w-52 sm:h-52 md:w-60 md:h-60 rounded-full overflow-hidden relative mx-auto"
+              className="avatar rounded-full overflow-hidden relative mx-auto"
               style={{
-                background: "linear-gradient(145deg, #E4F1EA, #B9D8C8)",
-                border: "3px solid var(--bg-secondary)",
-                boxShadow: "0 0 0 1px var(--border), 0 12px 32px -12px rgb(0 0 0 / .25)",
+                width: "clamp(190px, 22vw, 248px)",
+                aspectRatio: "1 / 1",
+                borderRadius: "9999px",
+                overflow: "hidden",
+                background: "#E4F1EA",
+                border: "none",
+                boxShadow: "0 10px 28px -10px rgb(0 0 0 / .14)",
               }}
             >
               {!imgError ? (
                 <img
-                  src="/portrait.png"
+                  src={PERSONAL_INFO.heroImage || "/hero-image.webp"}
                   alt={`Portrait of ${PERSONAL_INFO.name}`}
                   onError={() => setImgError(true)}
-                  className="w-full h-full object-cover object-top relative z-10"
+                  className="w-full h-full block"
+                  style={{
+                    objectFit: "cover",
+                    objectPosition: "center",
+                  }}
                   loading="eager"
                   decoding="async"
-                  style={{
-                    WebkitBackfaceVisibility: "hidden",
-                    backfaceVisibility: "hidden",
-                    transform: "translateZ(0)",
-                  }}
                 />
               ) : (
                 <div className="w-full h-full flex flex-col items-center justify-center relative z-10 text-text-primary">
@@ -83,13 +85,13 @@ export default function Hero() {
           </motion.div>
 
           {/* Name + Tagline */}
-          <div className="space-y-4">
+          <div className="space-y-3 sm:space-y-3.5">
             <motion.h1
               custom={1}
               initial="hidden"
               animate="visible"
               variants={fadeUp}
-              className="font-serif text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight text-text-primary leading-[1.08]"
+              className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-text-primary leading-[1.1]"
             >
               {PERSONAL_INFO.name}
             </motion.h1>
@@ -99,7 +101,7 @@ export default function Hero() {
               initial="hidden"
               animate="visible"
               variants={fadeUp}
-              className="font-sans text-lg sm:text-xl md:text-2xl text-text-secondary leading-relaxed font-normal max-w-2xl mx-auto"
+              className="font-sans text-base sm:text-lg md:text-xl text-text-secondary leading-relaxed font-normal max-w-2xl mx-auto"
             >
               Software Developer building{" "}
               <span className="text-text-primary font-medium">full-stack web applications</span>,{" "}

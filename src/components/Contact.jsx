@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
-import { Mail, ArrowUpRight, Copy, MapPin, Clock } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Mail, ArrowUpRight, Copy, MapPin, Clock, Check } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "./icons";
 import { CONTACT_CONTENT, PERSONAL_INFO } from "../data/portfolioContent";
 
@@ -15,7 +15,7 @@ const fadeUp = {
 
 export default function Contact() {
   const [copied, setCopied] = useState(false);
-  const directEmail = CONTACT_CONTENT.directEmail || PERSONAL_INFO.email;
+  const directEmail = PERSONAL_INFO.email;
 
   const handleCopyEmail = async () => {
     try {
@@ -59,42 +59,65 @@ export default function Contact() {
           whileInView="visible"
           viewport={{ once: true, margin: "-60px 0px" }}
           variants={fadeUp}
-          className="p-6 sm:p-10 md:p-12 rounded-3xl border border-border bg-bg-secondary shadow-sm space-y-6 overflow-hidden"
+          className="p-6 sm:p-10 md:p-12 rounded-3xl border border-border bg-bg-secondary shadow-sm space-y-5 overflow-visible"
         >
-          {/* Email Click-to-Copy with JetBrains Mono Bold, hover copy icon, zero green box */}
-          <div className="flex flex-col items-center justify-center max-w-full overflow-hidden">
+          {/* Email Click-to-Copy with JetBrains Mono Bold, hover copy icon */}
+          <div className="relative flex flex-col items-center justify-center max-w-full">
             <button
               type="button"
               onClick={handleCopyEmail}
               aria-label="Copy email address"
-              className="group inline-flex items-center justify-center gap-2.5 font-mono font-bold text-text-primary cursor-pointer tracking-tight text-center max-w-full min-h-[44px] py-1.5 px-3 rounded-xl transition-opacity hover:opacity-85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent select-text border-0 bg-transparent"
+              className="group inline-flex items-center justify-center gap-2.5 font-mono font-bold text-text-primary cursor-pointer tracking-tight text-center max-w-full min-h-[44px] py-1 px-3 rounded-xl transition-opacity hover:opacity-85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent select-text border-0 bg-transparent"
               style={{
                 fontSize: "clamp(1.15rem, 3.4vw, 2.15rem)",
-                lineHeight: 1.3,
+                lineHeight: 1.25,
                 wordBreak: "break-word",
                 overflowWrap: "anywhere",
               }}
             >
               <span>{directEmail}</span>
-              <Copy
-                size={20}
-                className="opacity-0 group-hover:opacity-100 transition-opacity text-text-secondary shrink-0"
-                aria-hidden="true"
-              />
+              {copied ? (
+                <Check
+                  size={20}
+                  className="text-accent stroke-[2.5] shrink-0 opacity-100 transition-all duration-150 animate-fade-in"
+                  aria-hidden="true"
+                />
+              ) : (
+                <Copy
+                  size={20}
+                  className="opacity-0 group-hover:opacity-100 transition-opacity text-text-secondary shrink-0"
+                  aria-hidden="true"
+                />
+              )}
             </button>
 
-            {/* Plain copy feedback indicator (no green box, no "Click to copy" placeholder) */}
-            <div className="min-h-[24px] mt-2 flex items-center justify-center text-center px-2">
+            {/* Fast Green Pop-up / Toast Notification with Green Background */}
+            <AnimatePresence>
               {copied && (
-                <span className="text-xs sm:text-sm font-sans font-medium text-text-primary animate-fade-up">
-                  Email copied to clipboard.
-                </span>
+                <motion.div
+                  initial={{ opacity: 0, y: 4, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 2, scale: 0.95 }}
+                  transition={{ duration: 0.15, ease: "easeOut" }}
+                  className="absolute -top-10 left-1/2 -translate-x-1/2 z-20 pointer-events-none whitespace-nowrap"
+                >
+                  <span
+                    className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full font-sans font-semibold text-xs sm:text-sm shadow-lg shadow-accent/20 border border-accent-light/40"
+                    style={{
+                      backgroundColor: "var(--accent)",
+                      color: "var(--text-on-accent)",
+                    }}
+                  >
+                    <Check size={14} className="stroke-[2.5]" style={{ color: "var(--text-on-accent)" }} />
+                    Email copied to clipboard!
+                  </span>
+                </motion.div>
               )}
-            </div>
+            </AnimatePresence>
           </div>
 
-          {/* Action Row: Send Email (mailto) + LinkedIn + GitHub (Copy Email button removed) */}
-          <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+          {/* Action Row: Send Email (mailto) + LinkedIn + GitHub directly below with tight natural spacing */}
+          <div className="flex flex-wrap items-center justify-center gap-3 pt-1">
             <a
               href={`mailto:${directEmail}`}
               className="btn-primary"
