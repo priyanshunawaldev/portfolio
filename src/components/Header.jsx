@@ -192,6 +192,25 @@ export default function Header({ isDark, onToggleTheme }) {
             </div>
           ) : (
             <>
+              {/* Brand Monogram Anchor */}
+              <a
+                href="#hero"
+                onClick={(e) => scrollToSection(e, "hero")}
+                className="flex items-center justify-center p-1 rounded-full hover:opacity-80 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent mr-1 shrink-0"
+                aria-label="Priyanshu Nawal — Home"
+              >
+                <img
+                  src="/pn-monogram-white.png"
+                  alt="PN"
+                  className="w-5 h-5 hidden dark:block object-contain"
+                />
+                <img
+                  src="/pn-monogram-black.png"
+                  alt="PN"
+                  className="w-5 h-5 block dark:hidden object-contain"
+                />
+              </a>
+
               {/* Desktop Dock Links with Sliding Pill Indicator */}
               <nav ref={navRef} aria-label="Main Navigation" className="hidden md:flex items-center gap-0.5 relative">
                 {/* Sliding pill background */}

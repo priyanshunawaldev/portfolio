@@ -14,6 +14,16 @@ export default function Footer() {
       <div className="container-custom">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
           <div className="flex items-center gap-2.5">
+            <img
+              src="/pn-monogram-white.png"
+              alt="PN"
+              className="w-5 h-5 hidden dark:block object-contain opacity-75"
+            />
+            <img
+              src="/pn-monogram-black.png"
+              alt="PN"
+              className="w-5 h-5 block dark:hidden object-contain opacity-75"
+            />
             <span className="text-text-secondary text-xs sm:text-sm font-sans">
               © {currentYear} {PERSONAL_INFO.name}
             </span>
