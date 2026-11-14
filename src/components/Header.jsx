@@ -199,7 +199,7 @@ export default function Header({ isDark, onToggleTheme }) {
               <a
                 href="#hero"
                 onClick={(e) => scrollToSection(e, "hero")}
-                className="flex items-center justify-center p-1 rounded-full hover:opacity-80 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent shrink-0"
+                className="flex items-center justify-center min-h-[44px] min-w-[36px] sm:min-w-[40px] px-1 rounded-full hover:opacity-80 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent shrink-0"
                 aria-label="Priyanshu Nawal — Home"
               >
                 <img
@@ -297,7 +297,7 @@ export default function Header({ isDark, onToggleTheme }) {
                   onClick={() => setIsMenuOpen(!isMenuOpen)}
                   aria-label={isMenuOpen ? "Close menu" : "Open menu"}
                   aria-expanded={isMenuOpen}
-                  className="w-10 h-10 sm:w-11 sm:h-11 min-w-[40px] min-h-[40px] rounded-full flex items-center justify-center text-text-secondary hover:text-text-primary cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ml-0.5"
+                  className="w-11 h-11 min-w-[44px] min-h-[44px] rounded-full flex items-center justify-center text-text-secondary hover:text-text-primary cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ml-0.5"
                 >
                   {isMenuOpen ? <X size={18} /> : <Menu size={18} />}
                 </button>
