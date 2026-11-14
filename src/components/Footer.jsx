@@ -13,22 +13,22 @@ export default function Footer() {
     <footer className="py-8 border-t border-border bg-bg-secondary/60 transition-colors">
       <div className="container-custom">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-3">
             <img
               src="/logo-dark.png"
               alt="PN"
-              className="h-[24px] w-[24px] hidden dark:block object-contain opacity-85"
+              className="h-6 w-6 hidden dark:block object-contain opacity-90 shrink-0"
               width="24"
               height="24"
             />
             <img
               src="/logo-light.png"
               alt="PN"
-              className="h-[24px] w-[24px] block dark:hidden object-contain opacity-85"
+              className="h-6 w-6 block dark:hidden object-contain opacity-90 shrink-0"
               width="24"
               height="24"
             />
-            <span className="text-text-secondary text-xs sm:text-sm font-sans leading-none">
+            <span className="text-text-secondary text-xs sm:text-sm font-sans font-medium">
               © {currentYear} {PERSONAL_INFO.name}
             </span>
           </div>

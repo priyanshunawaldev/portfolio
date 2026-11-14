@@ -9,10 +9,8 @@ import { captureDownload } from "../lib/posthog";
 const NAV_LINKS = [
   { label: "Home", href: "hero" },
   { label: "About", href: "about" },
-  { label: "Experience", href: "experience" },
-  { label: "Skills", href: "skills" },
   { label: "Projects", href: "projects" },
-  { label: "Education", href: "education" },
+  { label: "Experience", href: "experience" },
   { label: "Contact", href: "contact" },
 ];
 
@@ -43,7 +41,10 @@ export default function Header({ isDark, onToggleTheme }) {
   const updatePill = () => {
     const activeEl = linkRefs.current[activeSection];
     const navEl = navRef.current;
-    if (!activeEl || !navEl || isCaseStudy) return;
+    if (!activeEl || !navEl || isCaseStudy) {
+      setPillStyle({ width: 0, transform: "translateX(0px)" });
+      return;
+    }
 
     const navRect = navEl.getBoundingClientRect();
     const linkRect = activeEl.getBoundingClientRect();
@@ -173,7 +174,7 @@ export default function Header({ isDark, onToggleTheme }) {
     <header className="fixed top-3 sm:top-5 left-0 right-0 z-50 flex justify-center px-3 sm:px-4 pointer-events-none transition-all duration-200">
       <div className="flex items-center gap-2 sm:gap-3 pointer-events-auto max-w-full">
         {/* Main Floating Capsule Dock */}
-        <div className="flex items-center h-11 sm:h-12 pl-3.5 sm:pl-4 pr-2.5 sm:pr-3.5 rounded-full bg-bg-secondary/90 backdrop-blur-md border border-border/80 shadow-lg shadow-black/5 dark:shadow-black/25">
+        <div className="flex items-center h-11 sm:h-12 pl-4 sm:pl-5 pr-3 sm:pr-4 rounded-full bg-bg-secondary/90 backdrop-blur-md border border-border/80 shadow-lg shadow-black/5 dark:shadow-black/25">
           {/* Case Study Mode: Back link */}
           {isCaseStudy ? (
             <div className="flex items-center gap-2 px-1">
@@ -196,7 +197,7 @@ export default function Header({ isDark, onToggleTheme }) {
               <a
                 href="#hero"
                 onClick={(e) => scrollToSection(e, "hero")}
-                className="flex items-center justify-center pr-2 py-1 rounded-full hover:opacity-80 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent shrink-0"
+                className="flex items-center justify-center p-1 rounded-full hover:opacity-80 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent shrink-0"
                 aria-label="Priyanshu Nawal — Home"
               >
                 <img
@@ -214,6 +215,9 @@ export default function Header({ isDark, onToggleTheme }) {
                   height="26"
                 />
               </a>
+
+              {/* Vertical divider giving generous space between Logo and navigation */}
+              <div className="h-4 w-px bg-border/80 mx-2.5 sm:mx-3.5 shrink-0" aria-hidden="true" />
 
               {/* Desktop Dock Links with Sliding Pill Indicator */}
               <nav ref={navRef} aria-label="Main Navigation" className="hidden md:flex items-center gap-0.5 relative">
