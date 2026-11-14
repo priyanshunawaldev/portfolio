@@ -9,8 +9,10 @@ import { captureDownload } from "../lib/posthog";
 const NAV_LINKS = [
   { label: "Home", href: "hero" },
   { label: "About", href: "about" },
-  { label: "Projects", href: "projects" },
   { label: "Experience", href: "experience" },
+  { label: "Skills", href: "skills" },
+  { label: "Projects", href: "projects" },
+  { label: "Education", href: "education" },
   { label: "Contact", href: "contact" },
 ];
 
@@ -224,7 +226,7 @@ export default function Header({ isDark, onToggleTheme }) {
                 {/* Sliding pill background */}
                 {pillStyle.width > 0 && (
                   <div
-                    className="absolute top-1/2 -translate-y-1/2 left-0 h-[30px] rounded-full transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] pointer-events-none"
+                    className="absolute top-1/2 -translate-y-1/2 left-0 h-[28px] rounded-full transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] pointer-events-none"
                     style={{
                       width: pillStyle.width,
                       transform: `translateY(-50%) ${pillStyle.transform}`,
@@ -242,7 +244,7 @@ export default function Header({ isDark, onToggleTheme }) {
                       ref={(el) => { linkRefs.current[link.href] = el; }}
                       href={`#${link.href}`}
                       onClick={(e) => scrollToSection(e, link.href)}
-                      className={`relative px-3 sm:px-3.5 py-1.5 text-xs sm:text-sm font-medium transition-colors duration-300 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent z-10 ${
+                      className={`relative px-2.5 sm:px-3 py-1 text-xs sm:text-[13px] font-medium transition-colors duration-300 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent z-10 ${
                         isActive
                           ? "text-accent font-semibold"
                           : "text-text-secondary hover:text-text-primary"
