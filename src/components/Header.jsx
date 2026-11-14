@@ -173,7 +173,7 @@ export default function Header({ isDark, onToggleTheme }) {
     <header className="fixed top-3 sm:top-5 left-0 right-0 z-50 flex justify-center px-3 sm:px-4 pointer-events-none transition-all duration-200">
       <div className="flex items-center gap-2 sm:gap-3 pointer-events-auto max-w-full">
         {/* Main Floating Capsule Dock */}
-        <div className="flex items-center h-11 sm:h-12 px-2.5 sm:px-4 rounded-full bg-bg-secondary/90 backdrop-blur-md border border-border/80 shadow-lg shadow-black/5 dark:shadow-black/25">
+        <div className="flex items-center h-11 sm:h-12 pl-3.5 sm:pl-4 pr-2.5 sm:pr-3.5 rounded-full bg-bg-secondary/90 backdrop-blur-md border border-border/80 shadow-lg shadow-black/5 dark:shadow-black/25">
           {/* Case Study Mode: Back link */}
           {isCaseStudy ? (
             <div className="flex items-center gap-2 px-1">
@@ -192,22 +192,26 @@ export default function Header({ isDark, onToggleTheme }) {
             </div>
           ) : (
             <>
-              {/* Brand Monogram Anchor */}
+              {/* Brand Monogram Anchor with Theme-Aware Swapping */}
               <a
                 href="#hero"
                 onClick={(e) => scrollToSection(e, "hero")}
-                className="flex items-center justify-center p-1 rounded-full hover:opacity-80 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent mr-1 shrink-0"
+                className="flex items-center justify-center pr-2 py-1 rounded-full hover:opacity-80 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent shrink-0"
                 aria-label="Priyanshu Nawal — Home"
               >
                 <img
-                  src="/pn-monogram-white.png"
+                  src="/logo-dark.png"
                   alt="PN"
-                  className="w-5 h-5 hidden dark:block object-contain"
+                  className="h-[26px] w-[26px] hidden dark:block object-contain"
+                  width="26"
+                  height="26"
                 />
                 <img
-                  src="/pn-monogram-black.png"
+                  src="/logo-light.png"
                   alt="PN"
-                  className="w-5 h-5 block dark:hidden object-contain"
+                  className="h-[26px] w-[26px] block dark:hidden object-contain"
+                  width="26"
+                  height="26"
                 />
               </a>
 
