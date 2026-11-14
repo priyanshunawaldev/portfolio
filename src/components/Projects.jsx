@@ -6,11 +6,9 @@ import {
   Terminal,
   Activity,
   Mic,
-  Briefcase,
   Eye,
   FileText,
   ExternalLink,
-  Sparkles,
 } from "lucide-react";
 import { GithubIcon } from "./icons";
 import { PROJECTS_CONTENT } from "../data/portfolioContent";
@@ -37,7 +35,6 @@ const PROJECT_ICONS = {
   "pulse-engine": Activity,
   reflex: Terminal,
   prepwise: Mic,
-  "job-application-tracker": Briefcase,
   "autonomous-vehicle-cv": Eye,
 };
 
@@ -51,10 +48,18 @@ export default function Projects() {
     captureProjectClick(projectSummary.title);
   };
 
-  const allProjects = PROJECTS_CONTENT.projects;
+  // Projects tagged with featured: true automatically sort to the top
+  const allProjects = [...PROJECTS_CONTENT.projects].sort((a, b) => {
+    if (a.featured && !b.featured) return -1;
+    if (!a.featured && b.featured) return 1;
+    return 0;
+  });
+
+  const hasFlagship = allProjects.length > 0 && Boolean(allProjects[0].featured);
+  const standardProjectsCount = hasFlagship ? allProjects.length - 1 : allProjects.length;
 
   const renderProjectCard = (project, i) => {
-    const isFlagship = project.id === "pulse-engine";
+    const isFlagship = Boolean(project.featured) && i === 0;
     const Icon = PROJECT_ICONS[project.id] || Terminal;
     const githubLink = project.githubUrl || project.link;
     const demoLink = project.demoUrl;
@@ -95,8 +100,7 @@ export default function Projects() {
                   <div className="w-10 h-10 rounded-xl bg-accent/15 border border-accent/30 flex items-center justify-center text-accent shrink-0">
                     <Icon size={20} />
                   </div>
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-semibold bg-accent/10 text-accent border border-accent/25">
-                    <Sparkles size={12} />
+                  <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-mono font-semibold bg-accent/10 text-accent border border-accent/25">
                     Featured
                   </span>
                   <span className="text-xs font-mono text-text-secondary px-2.5 py-1 rounded-md bg-bg-tertiary border border-border/70">
@@ -128,7 +132,7 @@ export default function Projects() {
               <div className="lg:col-span-5 flex flex-col justify-between gap-4">
                 <div className="rounded-xl bg-accent/5 border border-accent/20 p-3.5 text-xs sm:text-sm text-text-primary">
                   <span className="text-text-secondary dark:text-text-primary/90 font-sans text-xs sm:text-sm leading-relaxed">
-                    PostgreSQL 16 · Locust 1,000 req/sec · 0 balance violations · 8-core Linux / 16GB RAM
+                    {project.benchmark || "High-performance systems implementation"}
                   </span>
                 </div>
 
@@ -166,6 +170,11 @@ export default function Projects() {
     }
 
     // Standard Project Card
+    const standardIndex = hasFlagship ? i - 1 : i;
+    // When only 1 project in the grid, or the last odd project, center it!
+    const isCentered =
+      (standardProjectsCount % 2 === 1) && (standardIndex === standardProjectsCount - 1);
+
     return (
       <motion.div
         key={project.id}
@@ -187,7 +196,9 @@ export default function Projects() {
             openProject(project);
           }
         }}
-        className="cursor-pointer group outline-none h-full relative rounded-2xl focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary"
+        className={`cursor-pointer group outline-none h-full relative rounded-2xl focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary ${
+          isCentered ? "md:col-span-2 max-w-xl mx-auto w-full" : ""
+        }`}
       >
         <div className="p-6 sm:p-7 sm:pr-8 rounded-2xl border border-border bg-bg-secondary hover:border-accent/50 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-full space-y-5">
           <div className="space-y-4">
@@ -196,9 +207,16 @@ export default function Projects() {
               <div className="w-10 h-10 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center text-accent">
                 <Icon size={19} />
               </div>
-              <span className="text-xs font-mono text-text-secondary px-2.5 py-1 rounded-md bg-bg-tertiary border border-border/70">
-                {project.type}
-              </span>
+              <div className="flex items-center gap-1.5">
+                {project.featured && (
+                  <span className="text-xs font-mono font-semibold px-2.5 py-0.5 rounded-full bg-accent/10 text-accent border border-accent/25">
+                    Featured
+                  </span>
+                )}
+                <span className="text-xs font-mono text-text-secondary px-2.5 py-1 rounded-md bg-bg-tertiary border border-border/70">
+                  {project.type}
+                </span>
+              </div>
             </div>
 
             {/* Title & Summary */}

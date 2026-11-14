@@ -1,8 +1,39 @@
 /**
- * PORTFOLIO CONTENT & COPY
+ * =============================================================================
+ * PORTFOLIO CONTENT & CENTRAL DATA DIRECTORY
+ * =============================================================================
  * 
- * Edit this single file to update any text, links, years, bio, skills,
- * projects, and education across the entire portfolio website.
+ * Edit this single file to update any text, links, bio, skills, resume, photo,
+ * and project cards across the entire portfolio website without touching code!
+ * 
+ * 📌 HOW TO CHANGE YOUR EMAIL:
+ *    - Update `email: "you@yourdomain.com"` in PERSONAL_INFO below.
+ *    - Automatically updates mailto links, copy buttons, and contact displays!
+ * 
+ * 📌 HOW TO UPDATE YOUR RESUME (Local PDF or External URL):
+ *    - If local file: Put your PDF into `/public` (e.g. `public/My_Resume.pdf`)
+ *      and set `resumePath: "/My_Resume.pdf"`.
+ *    - If external URL (e.g. Cloudflare Pages, GitHub, Google Drive):
+ *      set `resumePath: "https://yourdomain.com/resume.pdf"`.
+ *    - Automatically updates all buttons across Header, Hero, and Mobile Drawer!
+ * 
+ * 📌 HOW TO CHANGE YOUR HERO PHOTO:
+ *    - Put your new image in `/public` (e.g. `public/hero-image.webp`).
+ *    - Update `heroImage: "/hero-image.webp"` in PERSONAL_INFO below.
+ * 
+ * 📌 HOW TO MAKE A PROJECT "FEATURED":
+ *    - In PROJECTS_CONTENT.projects, set `featured: true` on any project.
+ *    - Whichever project has `featured: true` will AUTOMATICALLY appear at the
+ *      very top of the website with the wide "Featured" spotlight banner!
+ *    - You can swap the featured project anytime just by changing which project
+ *      has `featured: true`.
+ * 
+ * 📌 HOW TO ADD / REMOVE A PROJECT:
+ *    - Add or remove an object in PROJECTS_CONTENT.projects.
+ *    - (Optional) Add extended case study details in `src/data/projectsData.js`
+ *      if you want a deep-dive modal panel. If not added there, the modal will
+ *      still display all summary info cleanly without crashing!
+ * =============================================================================
  */
 
 export const PERSONAL_INFO = {
@@ -13,6 +44,7 @@ export const PERSONAL_INFO = {
   githubUrl: "https://github.com/priyanshunawaldev",
   linkedinUrl: "https://linkedin.com/in/priyanshunawal",
   resumePath: "/Priyanshu_Nawal_Resume.pdf",
+  heroImage: "/hero-image.webp",
   location: "India · Open to Hybrid & Relocation",
   availability: "Available immediately for Software Developer & Python Full-Stack roles",
   keyStack: "Python · FastAPI · React · PostgreSQL · REST APIs",
@@ -34,10 +66,12 @@ export const HERO_CONTENT = {
 
 export const ABOUT_CONTENT = {
   sectionTitle: "About Me",
-  paragraph:
-    "Software engineering is most rewarding when complex problems turn into clean, reliable tools that people actually enjoy using. With a graduate foundation from an Integrated M.Sc. in Computer Science, engineering work centers on Python full-stack systems — creating structured REST APIs with FastAPI, modeling relational schemas in PostgreSQL and SQLite, and pairing them with responsive React user interfaces. Clean code, automated test suites, and practical usability always come first.",
+  quote:
+    "I care most about the unglamorous parts of software: clean API contracts, database constraints that protect data integrity, and services that don't panic under concurrent traffic.",
   paragraphs: [
-    "Software engineering is most rewarding when complex problems turn into clean, reliable tools that people actually enjoy using. With a graduate foundation from an Integrated M.Sc. in Computer Science, engineering work centers on Python full-stack systems — creating structured REST APIs with FastAPI, modeling relational schemas in PostgreSQL and SQLite, and pairing them with responsive React user interfaces. Clean code, automated test suites, and practical usability always come first.",
+    "I'm a software developer with a graduate background in Computer Science (Integrated M.Sc., Central University of Rajasthan, 2024). I genuinely enjoy the process of turning complex backend requirements into clean, dependable systems that people can rely on.",
+    "Most of my day-to-day engineering centers on Python and full-stack web development — designing structured REST APIs with FastAPI, modeling clean relational schemas in PostgreSQL and SQLite, and pairing them with fast, responsive React interfaces. I place high value on automated testing with pytest, safe concurrency, and writing code that is straightforward for other engineers to read and maintain.",
+    "Beyond web services, I like tinkering with developer tooling — from terminal CLIs that make shell workflows faster to real-time WebSockets audio streams and computer vision pipelines.",
   ],
   focusAreas: [
     {
@@ -195,16 +229,16 @@ export const EXPERIENCE_CONTENT = {
 
 export const PROJECTS_CONTENT = {
   sectionTitle: "Projects",
-  // Set featured: true to always display in the main view.
-  // Projects with featured: false unfold under "Show more projects".
+  // 💡 Whichever project has `featured: true` will automatically appear at the top
+  // with the wide Featured spotlight card. Set only one as true (or more if desired).
   projects: [
     {
       id: "pulse-engine",
       title: "PulseEngine",
       featured: true,
       type: "Financial Backend",
-      summary: "A double-entry ledger service that processes simultaneous money transfers without double-charging or balance errors.",
-      benchmark: "Benchmarked on PostgreSQL 16 · Locust 1,000 req/sec · 0 balance invariant violations · 8-core Linux / 16GB RAM",
+      summary: "A concurrent double-entry accounting engine built in Python & FastAPI. Enforces zero-sum balance math across money transfers, verifies Redis SHA-256 idempotency keys in <1ms to prevent duplicate payments, and uses ordered row locks in PostgreSQL so simultaneous transfers never deadlock.",
+      benchmark: "PostgreSQL 16 · Locust 1,000 req/sec · Zero balance violations · 8-core Linux",
       skills: ["Python", "FastAPI", "PostgreSQL", "Redis"],
       link: "https://github.com/priyanshunawaldev/pulse-engine",
       githubUrl: "https://github.com/priyanshunawaldev/pulse-engine",
@@ -213,9 +247,9 @@ export const PROJECTS_CONTENT = {
     {
       id: "reflex",
       title: "Reflex CLI",
-      featured: true,
+      featured: false,
       type: "Developer Tool",
-      summary: "An offline-first command-line tool that lets developers track daily notes, tasks, and git commits straight from their shell.",
+      summary: "A lightweight, offline-first terminal assistant I built to log daily dev notes, active tasks, and Git commits directly from the shell into local SQLite — zero telemetry, zero cloud dependencies, and instant <25ms startup.",
       benchmark: "Sub-25ms cold startup · 0 KB network egress · Local SQLite",
       skills: ["Python", "SQLite", "Typer", "Rich"],
       link: "https://github.com/priyanshunawaldev/reflex-cli",
@@ -225,9 +259,9 @@ export const PROJECTS_CONTENT = {
     {
       id: "prepwise",
       title: "Prepwise",
-      featured: true,
+      featured: false,
       type: "Voice AI System",
-      summary: "An interactive voice interview platform that asks realistic spoken questions and gives immediate spoken feedback.",
+      summary: "A full-stack voice interview platform that simulates realistic technical screenings. It streams spoken candidate audio over bidirectional WebSockets to FastAPI and Gemini AI, delivering natural conversational follow-ups with sub-second turnaround.",
       benchmark: "Sub-second bidirectional audio streaming over WebSockets",
       skills: ["Next.js", "WebSockets", "FastAPI", "Gemini AI"],
       link: "https://github.com/priyanshunawaldev/interview-prep",
@@ -239,23 +273,11 @@ export const PROJECTS_CONTENT = {
       title: "YOLOv8 Real-Time Detection",
       featured: false,
       type: "Applied Research / Vision",
-      summary: "Real-time road obstacle perception pipeline trained with YOLOv8 and OpenCV, achieving <45ms latency on RTX 3060.",
+      summary: "My Master's dissertation research: a real-time road perception pipeline trained on multi-weather driving datasets with YOLOv8 and OpenCV, achieving sustained <45ms frame inference latency on RTX 3060 edge hardware.",
       benchmark: "<45ms latency on RTX 3060 · 1,000+ annotated multi-weather test frames",
       skills: ["Python", "YOLOv8", "OpenCV", "NumPy"],
-      link: "https://github.com/priyanshunawaldev",
-      githubUrl: "https://github.com/priyanshunawaldev",
-      demoUrl: null,
-    },
-    {
-      id: "job-application-tracker",
-      title: "Job Tracker Service",
-      featured: false,
-      type: "Backend Service",
-      summary: "A production REST API service for tracking and categorizing job applications across hiring pipelines.",
-      benchmark: "Sub-80ms API latency · 92% automated test coverage",
-      skills: ["Python", "FastAPI", "PostgreSQL", "Docker"],
-      link: "https://github.com/priyanshunawaldev/job-application-tracker",
-      githubUrl: "https://github.com/priyanshunawaldev/job-application-tracker",
+      link: null,
+      githubUrl: null,
       demoUrl: null,
     },
   ],
@@ -288,7 +310,7 @@ export const CONTACT_CONTENT = {
   sectionTitle: "Get in Touch",
   directEmail: "priyanshu.nawal.dev@gmail.com",
   subtext: "Have an open software engineering role, a project in mind, or want to discuss full-stack development? Reach out directly.",
-  responseTime: "Usually responds within 24 hours",
+  responseTime: "I respond within 24 hours",
   location: "India · Open to Hybrid & Relocation",
   availability: "Available immediately for Software Developer & Python Full-Stack roles",
 };

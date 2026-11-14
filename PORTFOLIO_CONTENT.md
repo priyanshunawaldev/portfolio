@@ -21,10 +21,10 @@ Whenever you want to modify any text, add projects, or change details, update `s
 
 ---
 
-## 2. About Me (Human-Written, Centered Narrative)
+## 2. About Me (Human-Written, Grounded Narrative)
 - **Title**: About Me
 - **Core Narrative**:
-  "Full-stack software developer with an Integrated M.Sc. in Computer Science, building production-ready Python backends, clean REST APIs, and responsive React web applications. Core engineering work centers on end-to-end web systems — crafting structured REST APIs with FastAPI, designing relational schemas in PostgreSQL and SQLite, and pairing them with clean, accessible React interfaces. Every project emphasizes thoughtful fundamentals: clean code, thorough automated testing with pytest, and reliable error handling. Beyond web applications, hands-on development spans building offline-first developer CLIs in Python, mentoring junior engineers on data structures and database internals, and shipping practical tools built for real-world reliability."
+  "I'm a software developer with a graduate background in Computer Science (Integrated M.Sc., Central University of Rajasthan, 2024). I genuinely enjoy the process of turning complex backend requirements into clean, dependable systems that people can rely on. Most of my day-to-day engineering centers on Python and full-stack web development — designing structured REST APIs with FastAPI, modeling clean relational schemas in PostgreSQL and SQLite, and pairing them with fast, responsive React interfaces. I place high value on automated testing with pytest, safe concurrency, and writing code that is straightforward for other engineers to read and maintain."
 
 ---
 
@@ -60,27 +60,27 @@ Whenever you want to modify any text, add projects, or change details, update `s
 ---
 
 ## 5. Projects
-Projects are configured with explicit `githubUrl` and `demoUrl` fields. Projects marked `featured: true` display directly in the primary grid; `featured: false` projects unfold cleanly under "Show more projects".
+Projects are configured with explicit `githubUrl` and `demoUrl` fields. Projects marked `featured: true` automatically display with the spotlight banner at the top of the grid.
 
-1. **PulseEngine** (`featured: true` — Flagship)
+1. **PulseEngine** (`featured: true` — Spotlight)
    - *Type*: Financial Backend
-   - *Summary*: A double-entry ledger service that processes simultaneous money transfers without double-charging or balance errors.
-   - *Benchmark*: Benchmarked on PostgreSQL 16 · Locust 1,000 req/sec · 0 balance invariant violations · 8-core Linux / 16GB RAM
+   - *Summary*: A concurrent double-entry accounting engine built in Python & FastAPI. Enforces zero-sum balance math across money transfers, verifies Redis SHA-256 idempotency keys in <1ms to prevent duplicate payments, and uses ordered row locks in PostgreSQL so simultaneous transfers never deadlock.
+   - *Benchmark*: PostgreSQL 16 · Locust 1,000 req/sec · Zero balance violations · 8-core Linux
    - *Core Skills*: Python, FastAPI, PostgreSQL, Redis
    - *GitHub*: https://github.com/priyanshunawaldev/pulse-engine
    - *Demo*: null
 
-2. **Reflex CLI** (`featured: true`)
+2. **Reflex CLI** (`featured: false`)
    - *Type*: Developer Tool
-   - *Summary*: An offline-first command-line tool that lets developers track daily notes, tasks, and git commits straight from their shell.
+   - *Summary*: A lightweight, offline-first terminal assistant I built to log daily dev notes, active tasks, and Git commits directly from the shell into local SQLite — zero telemetry, zero cloud dependencies, and instant <25ms startup.
    - *Benchmark*: Sub-25ms cold startup · 0 KB network egress · Local SQLite
    - *Core Skills*: Python, SQLite, Typer, Rich
    - *GitHub*: https://github.com/priyanshunawaldev/reflex-cli
    - *Demo*: null
 
-3. **Prepwise** (`featured: true`)
+3. **Prepwise** (`featured: false`)
    - *Type*: Voice AI System
-   - *Summary*: An interactive voice interview platform that asks realistic spoken questions and gives immediate spoken feedback.
+   - *Summary*: A full-stack voice interview platform that simulates realistic technical screenings. It streams spoken candidate audio over bidirectional WebSockets to FastAPI and Gemini AI, delivering natural conversational follow-ups with sub-second turnaround.
    - *Benchmark*: Sub-second bidirectional audio streaming over WebSockets
    - *Core Skills*: Next.js, WebSockets, FastAPI, Gemini AI
    - *GitHub*: https://github.com/priyanshunawaldev/interview-prep
@@ -88,18 +88,10 @@ Projects are configured with explicit `githubUrl` and `demoUrl` fields. Projects
 
 4. **YOLOv8 Real-Time Detection** (`featured: false` — Applied Research / Vision)
    - *Type*: Applied Research / Vision
-   - *Summary*: Real-time road obstacle perception pipeline trained with YOLOv8 and OpenCV, achieving <45ms latency on RTX 3060.
+   - *Summary*: My Master's dissertation research: a real-time road perception pipeline trained on multi-weather driving datasets with YOLOv8 and OpenCV, achieving sustained <45ms frame inference latency on RTX 3060 edge hardware.
    - *Benchmark*: <45ms latency on RTX 3060 · 1,000+ annotated multi-weather test frames
    - *Core Skills*: Python, YOLOv8, OpenCV, NumPy
-   - *GitHub*: https://github.com/priyanshunawaldev
-   - *Demo*: null
-
-5. **Job Tracker Service** (`featured: false` — Backend Service)
-   - *Type*: Backend Service
-   - *Summary*: A production REST API service for tracking and categorizing job applications across hiring pipelines.
-   - *Benchmark*: Sub-80ms API latency · 92% automated test coverage
-   - *Core Skills*: Python, FastAPI, PostgreSQL, Docker
-   - *GitHub*: https://github.com/priyanshunawaldev/job-application-tracker
+   - *GitHub*: null (Academic / Master's Dissertation Research)
    - *Demo*: null
 
 ---
@@ -125,6 +117,6 @@ Projects are configured with explicit `githubUrl` and `demoUrl` fields. Projects
 ## 7. Contact
 - **Direct Email**: priyanshu.nawal.dev@gmail.com
 - **Subtext**: Have an open software engineering role, a project in mind, or want to discuss full-stack development? Reach out directly.
-- **Response Time**: Usually responds within 24 hours
+- **Response Time**: I respond within 24 hours
 - **Location**: India · Open to Hybrid & Relocation
 - **Availability**: Available immediately for Software Developer & Python Full-Stack roles

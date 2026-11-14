@@ -358,164 +358,6 @@ async def execute_transfer(
     ],
   },
   {
-    id: "job-application-tracker",
-    slug: "job-application-tracker",
-    name: "Job Application Tracker — Production FastAPI Service with Sub-80ms Latency & 92% Test Coverage",
-    shortName: "Job Application Tracker",
-    category: "Full-Stack Backend & REST APIs",
-    tagline:
-      "A production-style FastAPI service with PostgreSQL, JWT authentication, RBAC, and Alembic migrations, tested with 92% Pytest coverage.",
-    highlight: "92% Pytest Coverage (42 Tests) · < 80ms Response Latency · Docker Compose · Redis Caching",
-    metrics: [
-      "42 automated unit & integration tests",
-      "Sub-80ms complex filtered query latency",
-      "JWT authentication & Role-Based Access Control",
-      "35% reduction in DB queries via Redis caching",
-    ],
-    description:
-      "Built and deployed a production-style REST API with FastAPI and PostgreSQL to manage job applications, companies, contacts, and follow-ups. Features JWT auth, role-based access control, Alembic schema migrations, multi-stage Docker Compose, and automated CI pipelines.",
-    role: "Backend Developer (Consultant Project)",
-    timeline: "2024",
-    status: "Verified Production-Style Project",
-    githubUrl: "https://github.com/priyanshunawaldev/job-application-tracker",
-    demoUrl: null,
-    liveDemoUrl: null,
-    stack: [
-      "Python 3.12",
-      "FastAPI",
-      "PostgreSQL",
-      "SQLAlchemy",
-      "Alembic",
-      "Redis",
-      "Docker Compose",
-      "Pytest (92% Coverage)",
-      "GitHub Actions",
-    ],
-    proofOfImplementation: {
-      githubUrl: "https://github.com/priyanshunawaldev",
-      testCoverage: "92%",
-      testSuiteStats: "42 unit & integration tests running on GitHub Actions CI/CD",
-      ciStatus: "Passing",
-      benchmarkStats: "Response latency on complex filtered queries under 80ms",
-      balanceInvariant: "RBAC & JWT token validation with strict Pydantic schemas",
-      swaggerDocUrl: "https://github.com/priyanshunawaldev",
-    },
-    impactMetrics: [
-      { label: "Test Coverage", value: "92%", detail: "42 unit & integration tests" },
-      { label: "Query Latency", value: "< 80 ms", detail: "Complex filtered queries with indexes" },
-      { label: "DB Query Reduction", value: "~35%", detail: "Redis caching on frequent lookups" },
-      { label: "Spin-up Time", value: "< 60s", detail: "Multi-stage Docker Compose setup" },
-    ],
-    engineeringBreakdown: {
-      title: "What I Actually Engineered vs. What Libraries Handled",
-      customEngineered: [
-        {
-          module: "Composite B-Tree Query Optimization",
-          description: "Profiled execution plans using PostgreSQL EXPLAIN ANALYZE on multi-filter searches (status + company + date), creating composite B-tree indexes that slashed response latency from 320ms to 78ms.",
-        },
-        {
-          module: "Write-Through Cache Invalidation",
-          description: "Engineered FastAPI dependency injection middleware that automatically purges user dashboard cache keys only when write operations (create/update/delete) commit successfully.",
-        },
-        {
-          module: "Isolated Test Container Pipeline",
-          description: "Wrote 42 automated Pytest unit and integration tests executing against an ephemeral PostgreSQL Docker container with schema isolation fixtures achieving 92% coverage.",
-        },
-        {
-          module: "Granular RBAC Authorization Dependency",
-          description: "Built custom reusable security dependencies enforcing tenant data boundaries and role hierarchies across all route handlers.",
-        },
-      ],
-      librariesHandled: [
-        {
-          module: "FastAPI",
-          description: "Route handling, dependency injection graphs, and Pydantic request body validation.",
-        },
-        {
-          module: "Alembic",
-          description: "Versioned schema migration generation and migration chain execution.",
-        },
-        {
-          module: "PostgreSQL",
-          description: "Relational storage engine, B-Tree index traversal, and MVCC concurrency.",
-        },
-        {
-          module: "Passlib / bcrypt",
-          description: "Cryptographic salt generation and key derivation functions.",
-        },
-      ],
-    },
-    dumbestBug: {
-      title: "The Timezone Time-Travel Paradox",
-      summary: "When applications submitted on Tuesday night showed up on Wednesday's dashboard before midnight.",
-      warStory:
-        "A user in UTC+5:30 submitted an application at 11:15 PM and immediately checked their daily tracker. The application had mysteriously vanished from 'Today's Submissions' and was already classified under tomorrow. I initially suspected a client-side date picker formatting bug or JavaScript's notoriously confusing Date object.\n\nThe real culprit was deep in PostgreSQL: the column was typed as TIMESTAMP WITHOUT TIME ZONE. The query filter was checking created_at >= CURRENT_DATE. PostgreSQL was evaluating CURRENT_DATE according to the server's UTC clock (where it was still 5:45 PM), while the incoming ISO timestamp had been naively stripped of its offset by Pydantic. The database was comparing UTC wall-clock time with offset-less local timestamps, creating a 5.5-hour window every evening where submissions time-traveled into the future. Fixed by migrating columns to TIMESTAMPTZ and enforcing explicit UTC normalization at the Pydantic validator boundary.",
-    },
-    codeSnippets: [
-      {
-        fileName: "app/api/v1/auth.py",
-        language: "python",
-        title: "JWT Authentication & Password Hashing",
-        description: "Secure user authentication with PBKDF2/bcrypt hashing, access token generation, and Pydantic validation.",
-        code: `from fastapi import APIRouter, Depends, HTTPException, status
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-from app.core.security import verify_password, create_access_token
-from app.services.user_service import get_user_by_email
-
-router = APIRouter(prefix="/auth", tags=["auth"])
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/auth/login")
-
-@router.post("/login")
-async def login(form_data: OAuth2PasswordRequestForm = Depends()):
-    user = await get_user_by_email(form_data.username)
-    if not user or not verify_password(form_data.password, user.hashed_password):
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Incorrect email or password",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
-    access_token = create_access_token(data={"sub": str(user.id), "role": user.role})
-    return {"access_token": access_token, "token_type": "bearer"}`,
-      },
-    ],
-    overview:
-      "A full-featured backend API designed to organize developer job searches, manage application stages, track recruiter follow-ups, and automate status metrics with fast, indexed PostgreSQL queries.",
-    problemStatement:
-      "Tracking multiple job applications across spreadsheets leads to missed follow-ups, slow status lookups, and scattered recruiter notes. This service centralizes the entire workflow behind a secured, high-performance REST API.",
-    motivation:
-      "Engineered to build a production-grade backend addressing real-world concerns: JWT authentication, database migrations with Alembic, composite index tuning, Redis caching, and automated testing.",
-    contributions: [
-      "Engineered 42 automated unit and integration tests with Pytest, reaching 92% code coverage on GitHub Actions.",
-      "Optimized PostgreSQL schema with composite indexes, reducing query response times to under 80ms.",
-      "Implemented JWT authentication with role-based access control (RBAC) and strict Pydantic payload validation.",
-      "Integrated Redis caching to reduce redundant database queries by approximately 35%.",
-      "Containerized development and staging with multi-stage Docker Compose, bringing environment spin-up under 60 seconds.",
-    ],
-    architecture: [
-      {
-        title: "1. FastAPI Ingestion & Validation",
-        detail: "Strict Pydantic request models with type hints, custom validators, and comprehensive error responses.",
-      },
-      {
-        title: "2. PostgreSQL & Alembic Migrations",
-        detail: "Normalized tables linking users, applications, contacts, and stages with safe versioned migrations.",
-      },
-      {
-        title: "3. Redis Query Caching",
-        detail: "In-memory caching of frequently requested user dashboards, invalidating automatically on state changes.",
-      },
-      {
-        title: "4. Multi-Stage Docker Environment",
-        detail: "Minimal production container build with health checks and volume persistence.",
-      },
-    ],
-    outcomes: [
-      "42 automated tests passing with 92% coverage on every GitHub pull request.",
-      "Query latency consistently under 80ms on multi-filter searches.",
-      "Fully reproducible local environment via a single docker-compose up command.",
-    ],
-  },
-  {
     id: "prepwise",
     slug: "prepwise",
     name: "Prepwise — AI Voice Interview Platform with Sub-Second Feedback & WebSockets",
@@ -790,18 +632,18 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()):
     role: "Graduate Researcher (Master's Dissertation)",
     timeline: "Jan 2024 — June 2024",
     status: "Master's Dissertation Research",
-    githubUrl: "https://github.com/priyanshunawaldev",
+    githubUrl: null,
     demoUrl: null,
     liveDemoUrl: null,
     stack: ["Python", "YOLOv8", "OpenCV", "NumPy", "Deep Learning", "Data Augmentation"],
     proofOfImplementation: {
-      githubUrl: "https://github.com/priyanshunawaldev",
+      githubUrl: null,
       testCoverage: "Validated on multi-weather test splits",
       testSuiteStats: "Evaluation on adverse weather datasets (rain, glare, nighttime)",
       ciStatus: "Research Verified",
       benchmarkStats: "Benchmarked at <45ms per frame inference latency on NVIDIA RTX 3060 across 1,000+ annotated images",
       balanceInvariant: "Zero false-positive detections on baseline benchmark runs",
-      swaggerDocUrl: "https://github.com/priyanshunawaldev",
+      swaggerDocUrl: null,
     },
     impactMetrics: [
       { label: "Frame Latency", value: "< 45 ms", detail: "Real-time edge GPU inference" },
