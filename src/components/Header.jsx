@@ -176,7 +176,7 @@ export default function Header({ isDark, onToggleTheme }) {
     <header className="fixed top-3 sm:top-5 left-0 right-0 z-50 flex justify-center px-3 sm:px-4 pointer-events-none transition-all duration-200">
       <div className="flex items-center gap-2 sm:gap-3 pointer-events-auto max-w-full">
         {/* Main Floating Capsule Dock */}
-        <div className="flex items-center h-11 sm:h-12 pl-4 sm:pl-5 pr-3 sm:pr-4 rounded-full bg-bg-secondary/90 backdrop-blur-md border border-border/80 shadow-lg shadow-black/5 dark:shadow-black/25">
+        <div className="flex items-center h-12 sm:h-14 pl-3.5 sm:pl-4.5 pr-2.5 sm:pr-3.5 rounded-full bg-bg-secondary/90 backdrop-blur-md border border-border/80 shadow-lg shadow-black/5 dark:shadow-black/25">
           {/* Case Study Mode: Back link */}
           {isCaseStudy ? (
             <div className="flex items-center gap-2 px-1">
@@ -205,28 +205,28 @@ export default function Header({ isDark, onToggleTheme }) {
                 <img
                   src="/logo-dark.png"
                   alt="PN"
-                  className="h-[26px] w-[26px] hidden dark:block object-contain"
-                  width="26"
-                  height="26"
+                  className="h-7 w-7 sm:h-[29px] sm:w-[29px] hidden dark:block object-contain"
+                  width="29"
+                  height="29"
                 />
                 <img
                   src="/logo-light.png"
                   alt="PN"
-                  className="h-[26px] w-[26px] block dark:hidden object-contain"
-                  width="26"
-                  height="26"
+                  className="h-7 w-7 sm:h-[29px] sm:w-[29px] block dark:hidden object-contain"
+                  width="29"
+                  height="29"
                 />
               </a>
 
               {/* Vertical divider giving generous space between Logo and navigation */}
-              <div className="h-4 w-px bg-border/80 mx-2.5 sm:mx-3.5 shrink-0" aria-hidden="true" />
+              <div className="h-5 sm:h-6 w-px bg-border/80 mx-2 sm:mx-2.5 shrink-0" aria-hidden="true" />
 
               {/* Desktop Dock Links with Sliding Pill Indicator */}
               <nav ref={navRef} aria-label="Main Navigation" className="hidden md:flex items-center gap-0.5 relative">
                 {/* Sliding pill background */}
                 {pillStyle.width > 0 && (
                   <div
-                    className="absolute top-1/2 -translate-y-1/2 left-0 h-[28px] rounded-full transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] pointer-events-none"
+                    className="absolute top-1/2 -translate-y-1/2 left-0 h-[34px] sm:h-[38px] rounded-full transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] pointer-events-none"
                     style={{
                       width: pillStyle.width,
                       transform: `translateY(-50%) ${pillStyle.transform}`,
@@ -244,7 +244,7 @@ export default function Header({ isDark, onToggleTheme }) {
                       ref={(el) => { linkRefs.current[link.href] = el; }}
                       href={`#${link.href}`}
                       onClick={(e) => scrollToSection(e, link.href)}
-                      className={`relative px-2.5 sm:px-3 py-1 text-xs sm:text-[13px] font-medium transition-colors duration-300 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent z-10 ${
+                      className={`relative px-2 sm:px-2.5 py-1.5 sm:py-2 text-[13px] sm:text-sm font-medium transition-colors duration-300 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent z-10 ${
                         isActive
                           ? "text-accent font-semibold"
                           : "text-text-secondary hover:text-text-primary"
@@ -261,10 +261,10 @@ export default function Header({ isDark, onToggleTheme }) {
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => captureDownload()}
-                  className="ml-1 inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs mono font-medium text-text-secondary hover:text-accent transition-colors z-10"
+                  className="ml-1 inline-flex items-center gap-1 px-2.5 py-1.5 sm:py-2 rounded-full text-xs sm:text-[13px] mono font-medium text-text-secondary hover:text-accent transition-colors z-10"
                 >
                   <span>Resume</span>
-                  <ArrowUpRight size={12} className="text-accent" />
+                  <ArrowUpRight size={13} className="text-accent" />
                 </a>
               </nav>
 
@@ -311,9 +311,9 @@ export default function Header({ isDark, onToggleTheme }) {
           type="button"
           onClick={onToggleTheme}
           aria-label={isDark ? "Switch to light theme" : "Switch to dark theme"}
-          className="w-11 h-11 sm:w-12 sm:h-12 rounded-full flex items-center justify-center bg-bg-secondary/90 backdrop-blur-md border border-border/80 shadow-lg shadow-black/5 dark:shadow-black/25 text-text-primary hover:text-accent hover:border-accent/50 transition-colors duration-150 active:scale-95 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent shrink-0"
+          className="w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center bg-bg-secondary/90 backdrop-blur-md border border-border/80 shadow-lg shadow-black/5 dark:shadow-black/25 text-text-primary hover:text-accent hover:border-accent/50 transition-colors duration-150 active:scale-95 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent shrink-0"
         >
-          {isDark ? <Sun size={17} className="text-amber-400" /> : <Moon size={17} className="text-text-secondary" />}
+          {isDark ? <Sun size={18} className="text-amber-400" /> : <Moon size={18} className="text-text-secondary" />}
         </button>
       </div>
 

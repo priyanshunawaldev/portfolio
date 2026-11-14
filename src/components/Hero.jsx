@@ -51,14 +51,13 @@ export default function Hero() {
             className="inline-block mx-auto select-none"
           >
             <div
-              className="avatar rounded-full overflow-hidden relative mx-auto"
+              className="avatar rounded-full overflow-hidden relative mx-auto ring-2 ring-emerald-700/15 dark:ring-emerald-400/20"
               style={{
                 width: "clamp(190px, 22vw, 248px)",
                 aspectRatio: "1 / 1",
                 borderRadius: "9999px",
                 overflow: "hidden",
                 background: "#E4F1EA",
-                border: "none",
                 boxShadow: "0 10px 28px -10px rgb(0 0 0 / .14)",
               }}
             >
@@ -67,11 +66,7 @@ export default function Hero() {
                   src={PERSONAL_INFO.heroImage || "/hero-image.webp"}
                   alt={`Portrait of ${PERSONAL_INFO.name}`}
                   onError={() => setImgError(true)}
-                  className="w-full h-full block"
-                  style={{
-                    objectFit: "cover",
-                    objectPosition: "center",
-                  }}
+                  className="w-full h-full block scale-105 object-cover object-top"
                   loading="eager"
                   decoding="async"
                 />
@@ -103,9 +98,7 @@ export default function Hero() {
               variants={fadeUp}
               className="font-sans text-base sm:text-lg md:text-xl text-text-secondary leading-relaxed font-normal max-w-2xl mx-auto"
             >
-              Software Developer building{" "}
-              <span className="text-text-primary font-medium">full-stack web applications</span>,{" "}
-              dependable Python APIs, and practical developer tools.
+              Software Developer building scalable full-stack web apps, high-throughput Python APIs, and automated developer tools.
             </motion.p>
 
             {/* Status line — not a boxed block */}
@@ -120,14 +113,14 @@ export default function Hero() {
                 <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
                 Available immediately
               </span>
-              <span className="text-border" aria-hidden="true">·</span>
-              <span>India · Open to Hybrid &amp; Relocation</span>
-              <span className="text-border" aria-hidden="true">·</span>
-              <span className="font-mono font-medium">Python · Full-Stack · React · FastAPI</span>
+              <span className="text-border select-none" aria-hidden="true">·</span>
+              <span>India (Open to Hybrid &amp; Relocation)</span>
+              <span className="text-border select-none" aria-hidden="true">·</span>
+              <span className="font-mono font-medium">Python · FastAPI · React · PostgreSQL · Docker</span>
             </motion.p>
           </div>
 
-          {/* Action Bar: Resume (primary) + See Projects (secondary) + GitHub + LinkedIn */}
+          {/* Action Bar: View Resume (primary) + See Projects (secondary) + GitHub + LinkedIn */}
           <motion.div
             custom={4}
             initial="hidden"
@@ -143,7 +136,7 @@ export default function Hero() {
               className="btn-primary"
             >
               <FileText size={17} />
-              <span>Resume PDF</span>
+              <span>View Resume</span>
               <ArrowUpRight size={15} />
             </a>
 
@@ -160,20 +153,22 @@ export default function Hero() {
               href={PERSONAL_INFO.githubUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2.5 min-h-[44px] rounded-xl border border-border/80 bg-bg-secondary/80 hover:bg-bg-secondary text-text-primary hover:text-accent font-medium text-sm transition-colors shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+              aria-label="GitHub Profile"
+              title="GitHub Profile"
+              className="w-11 h-11 min-w-[44px] min-h-[44px] rounded-xl border border-border/80 bg-bg-secondary/80 hover:bg-bg-secondary text-text-primary hover:text-accent transition-colors shadow-sm flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
             >
-              <GithubIcon size={17} />
-              <span>GitHub</span>
+              <GithubIcon size={18} />
             </a>
 
             <a
               href={PERSONAL_INFO.linkedinUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2.5 min-h-[44px] rounded-xl border border-border/80 bg-bg-secondary/80 hover:bg-bg-secondary text-text-primary hover:text-accent font-medium text-sm transition-colors shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+              aria-label="LinkedIn Profile"
+              title="LinkedIn Profile"
+              className="w-11 h-11 min-w-[44px] min-h-[44px] rounded-xl border border-border/80 bg-bg-secondary/80 hover:bg-bg-secondary text-text-primary hover:text-accent transition-colors shadow-sm flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
             >
-              <LinkedinIcon size={17} />
-              <span>LinkedIn</span>
+              <LinkedinIcon size={18} />
             </a>
           </motion.div>
 

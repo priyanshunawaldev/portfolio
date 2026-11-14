@@ -39,7 +39,7 @@
 export const PERSONAL_INFO = {
   name: "Priyanshu Nawal",
   role: "Software Developer · Python Full-Stack",
-  shortBio: "Building full-stack web applications, dependable Python APIs, and practical developer tools.",
+  shortBio: "Software Developer building scalable full-stack web apps, high-throughput Python APIs, and automated developer tools.",
   email: "priyanshu.nawal.dev@gmail.com",
   githubUrl: "https://github.com/priyanshunawaldev",
   linkedinUrl: "https://linkedin.com/in/priyanshunawal",
