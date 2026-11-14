@@ -310,7 +310,7 @@ export const CONTACT_CONTENT = {
   sectionTitle: "Get in Touch",
   directEmail: "priyanshu.nawal.dev@gmail.com",
   subtext: "Have an open software engineering role, a project in mind, or want to discuss full-stack development? Reach out directly.",
-  responseTime: "I respond within 24 hours",
+  responseTime: "Response within 24 hours",
   location: "India · Open to Hybrid & Relocation",
   availability: "Available immediately for Software Developer & Python Full-Stack roles",
 };

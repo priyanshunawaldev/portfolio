@@ -117,6 +117,6 @@ Projects are configured with explicit `githubUrl` and `demoUrl` fields. Projects
 ## 7. Contact
 - **Direct Email**: priyanshu.nawal.dev@gmail.com
 - **Subtext**: Have an open software engineering role, a project in mind, or want to discuss full-stack development? Reach out directly.
-- **Response Time**: I respond within 24 hours
+- **Response Time**: Response within 24 hours
 - **Location**: India · Open to Hybrid & Relocation
 - **Availability**: Available immediately for Software Developer & Python Full-Stack roles
