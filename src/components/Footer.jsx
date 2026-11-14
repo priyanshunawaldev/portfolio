@@ -14,20 +14,31 @@ export default function Footer() {
       <div className="container-custom">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
           <div className="flex items-center gap-3">
-            <img
-              src="/logo-dark.png"
-              alt="PN"
-              className="h-6 w-6 hidden dark:block object-contain opacity-90 shrink-0"
-              width="24"
-              height="24"
-            />
-            <img
-              src="/logo-light.png"
-              alt="PN"
-              className="h-6 w-6 block dark:hidden object-contain opacity-90 shrink-0"
-              width="24"
-              height="24"
-            />
+            <a
+              href="#hero"
+              onClick={(e) => {
+                e.preventDefault();
+                scrollToTop();
+              }}
+              className="min-h-[44px] min-w-[36px] flex items-center justify-center p-1 rounded-lg hover:opacity-80 transition-opacity cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent shrink-0"
+              aria-label="Priyanshu Nawal — Back to Top"
+              title="Back to Top"
+            >
+              <img
+                src="/logo-dark.png"
+                alt="PN"
+                className="h-6 w-6 hidden dark:block object-contain opacity-90 shrink-0"
+                width="24"
+                height="24"
+              />
+              <img
+                src="/logo-light.png"
+                alt="PN"
+                className="h-6 w-6 block dark:hidden object-contain opacity-90 shrink-0"
+                width="24"
+                height="24"
+              />
+            </a>
             <span className="text-text-secondary text-xs sm:text-sm font-sans font-medium">
               © {currentYear} {PERSONAL_INFO.name}
             </span>

@@ -172,6 +172,39 @@ export default function Hero() {
             </a>
           </motion.div>
 
+          {/* Subtle Scroll Indicator */}
+          <motion.div
+            custom={5}
+            initial="hidden"
+            animate="visible"
+            variants={fadeUp}
+            className="pt-6 sm:pt-8 flex flex-col items-center justify-center"
+          >
+            <a
+              href="#about"
+              onClick={(e) => {
+                e.preventDefault();
+                const el = document.getElementById("about");
+                if (el) {
+                  const topOffset = el.getBoundingClientRect().top + window.pageYOffset - 90;
+                  window.scrollTo({ top: topOffset, behavior: "smooth" });
+                }
+              }}
+              className="group inline-flex flex-col items-center gap-1.5 text-text-secondary/70 hover:text-accent transition-colors duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-full py-1.5 px-3 select-none"
+              aria-label="Scroll to explore portfolio"
+            >
+              <span className="font-mono text-[10px] sm:text-[11px] font-semibold tracking-[0.2em] uppercase">
+                SCROLL TO EXPLORE
+              </span>
+              <motion.div
+                animate={{ y: [0, 4, 0] }}
+                transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+              >
+                <ArrowDown size={14} className="text-text-secondary/60 group-hover:text-accent transition-colors" />
+              </motion.div>
+            </a>
+          </motion.div>
+
         </div>
       </div>
     </section>

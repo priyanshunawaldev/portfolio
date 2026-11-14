@@ -59,7 +59,7 @@ export default function Contact() {
           whileInView="visible"
           viewport={{ once: true, margin: "-60px 0px" }}
           variants={fadeUp}
-          className="p-6 sm:p-10 md:p-12 rounded-3xl border border-border bg-bg-secondary shadow-sm space-y-5 overflow-visible"
+          className="p-5 sm:p-10 md:p-12 rounded-3xl border border-border bg-bg-secondary shadow-sm space-y-5 overflow-visible"
         >
           {/* Email Click-to-Copy with JetBrains Mono Bold, hover copy icon */}
           <div className="relative flex flex-col items-center justify-center max-w-full">
@@ -67,15 +67,15 @@ export default function Contact() {
               type="button"
               onClick={handleCopyEmail}
               aria-label="Copy email address"
-              className="group inline-flex items-center justify-center gap-2.5 font-mono font-bold text-text-primary cursor-pointer tracking-tight text-center max-w-full min-h-[44px] py-1 px-3 rounded-xl transition-opacity hover:opacity-85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent select-text border-0 bg-transparent"
+              className="group inline-flex items-center justify-center gap-2 sm:gap-2.5 font-mono font-bold text-text-primary cursor-pointer tracking-tight text-center max-w-full min-h-[44px] py-1.5 px-2 sm:px-3 rounded-xl transition-opacity hover:opacity-85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent select-text border-0 bg-transparent"
               style={{
-                fontSize: "clamp(1.15rem, 3.4vw, 2.15rem)",
-                lineHeight: 1.25,
-                wordBreak: "break-word",
+                fontSize: "clamp(0.95rem, 3.8vw, 2.15rem)",
+                lineHeight: 1.3,
+                wordBreak: "break-all",
                 overflowWrap: "anywhere",
               }}
             >
-              <span>{directEmail}</span>
+              <span className="break-all sm:break-normal">{directEmail}</span>
               {copied ? (
                 <Check
                   size={20}
