@@ -16,16 +16,16 @@ export default function About() {
 
   return (
     <section id="about" className="py-16 sm:py-24 relative scroll-mt-28 sm:scroll-mt-32">
-      <div className="container-custom space-y-8 sm:space-y-10">
+      <div className="container max-w-4xl mx-auto px-4 sm:px-6 space-y-8 sm:space-y-10">
         {/* Centered Heading */}
         <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-60px 0px" }}
           variants={fadeUp}
-          className="text-center"
+          className="text-center w-full"
         >
-          <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-text-primary tracking-tight">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-text-primary tracking-tight text-center mx-auto">
             {ABOUT_CONTENT?.sectionTitle || "About Me"}
           </h2>
         </motion.div>

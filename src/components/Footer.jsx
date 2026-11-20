@@ -1,4 +1,4 @@
-import { ArrowUp } from "lucide-react";
+import { ArrowUp, ArrowUpRight } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "./icons";
 import { PERSONAL_INFO } from "../data/portfolioContent";
 
@@ -49,9 +49,10 @@ export default function Footer() {
               href="https://github.com/priyanshunawaldev/portfolio"
               target="_blank"
               rel="noopener noreferrer"
-              className="min-h-[44px] inline-flex items-center px-1.5 hover:text-accent transition-colors rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+              className="group min-h-[44px] inline-flex items-center gap-1 px-2.5 py-1 text-xs sm:text-sm font-medium text-text-secondary hover:text-accent hover:bg-bg-tertiary rounded-lg transition-colors whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
             >
-              Source ↗
+              <span>Source</span>
+              <ArrowUpRight size={13} className="text-accent transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" aria-hidden="true" />
             </a>
             <a
               href={PERSONAL_INFO.githubUrl}

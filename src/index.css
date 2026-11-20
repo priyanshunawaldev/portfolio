@@ -1,12 +1,17 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=JetBrains+Mono:wght@400;500;600&display=swap");
+/* Hallmark · shape: Split Stage · genre: modern-minimal · theme: brand · redesign: full
+ * paper: oklch(98% 0.005 150) · accent: oklch(52% 0.17 145) · display: Inter · body: Inter · hero: Stage · nav: Detached Dock · footer: Minimal Mast · signature: interactive ledger transaction inspector
+ * axes: light/grotesk/chromatic-emerald · posture: Stage · contrast: pass · fold: pass · v2.0.0 */
+/* Hallmark · reworded "open-source backend engineering" to "independent backend engineering & open-source development", "technical cs educator & consultant" to "technical cs educator & subject specialist", "priyanshu nawal" to "hi, i'm priyanshu nawal" · critique calibration */
+/* Hallmark · dropped #about · removed from hero per user design request */
+/* Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V4 · weakest: V, elevated to asymmetric desktop stage with ledger consensus signature */
+@import "./tokens.css";
+@import "./base.css" layer(base);
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* ─── Color Palette (Hand-picked, WCAG AA verified) ─── */
-
-/* Light mode (default) */
+/* ─── RGB Space-Separated Channels for Tailwind Alpha Modifiers ─── */
 :root,
 :root.light {
   --bg-primary-rgb: 247 249 248;
@@ -18,18 +23,17 @@
   --accent-light-rgb: 22 163 74;
   --border-rgb: 226 232 228;
 
-  --bg-primary: #F7F9F8;
-  --bg-secondary: #FFFFFF;
-  --bg-tertiary: #EEF2F0;
-  --text-primary: #0E1512;
-  --text-secondary: #53625A;
-  --accent: #15803D;
-  --accent-light: #16A34A;
-  --border: #E2E8E4;
-  --text-on-accent: #FFFFFF;
+  --bg-primary: var(--color-paper);
+  --bg-secondary: var(--color-paper-2);
+  --bg-tertiary: var(--color-paper-3);
+  --text-primary: var(--color-ink);
+  --text-secondary: var(--color-ink-2);
+  --accent: var(--color-accent);
+  --accent-light: var(--color-accent);
+  --border: var(--color-rule);
+  --text-on-accent: var(--color-accent-ink);
 }
 
-/* Dark mode */
 :root.dark {
   --bg-primary-rgb: 16 21 19;
   --bg-secondary-rgb: 23 30 26;
@@ -40,142 +44,158 @@
   --accent-light-rgb: 120 220 170;
   --border-rgb: 38 49 43;
 
-  --bg-primary: #101513;
-  --bg-secondary: #171E1A;
-  --bg-tertiary: #1E2823;
-  --text-primary: #E6ECE8;
-  --text-secondary: #9AAAA1;
-  --accent: #5FCB98;
-  --accent-light: #78DCAA;
-  --border: #26312B;
-  --text-on-accent: #07120C;
+  --bg-primary: var(--color-paper);
+  --bg-secondary: var(--color-paper-2);
+  --bg-tertiary: var(--color-paper-3);
+  --text-primary: var(--color-ink);
+  --text-secondary: var(--color-ink-2);
+  --accent: var(--color-accent);
+  --accent-light: var(--color-accent);
+  --border: var(--color-rule);
+  --text-on-accent: var(--color-accent-ink);
 }
 
 @layer base {
   html {
     scroll-behavior: smooth;
-    background-color: var(--bg-primary);
-    color: var(--text-primary);
-    font-size: 16px;
+    overflow-x: clip;
   }
 
   body {
-    background-color: var(--bg-primary);
-    color: var(--text-primary);
-    min-height: 100vh;
-    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    font-size: 1rem;
-    line-height: 1.65;
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-body);
+    overflow-x: clip;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    overflow-x: hidden;
   }
 
-  h1, h2, h3, h4 {
-    letter-spacing: -0.025em;
-    line-height: 1.2;
-    text-wrap: balance;
-  }
-
-  .mono, code, kbd, samp, pre {
-    font-family: "JetBrains Mono", ui-monospace, Menlo, monospace;
-  }
-
-  ::selection {
-    background-color: rgba(var(--accent-rgb) / 0.25);
-    color: var(--text-primary);
-  }
-
-  /* Ensure all sections have scroll margin for fixed nav */
-  section[id] {
-    scroll-margin-top: 96px;
+  /* Accessible focus indicators */
+  :focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
   }
 }
 
-@layer components {
+/* ─── Typography & Utilities ─── */
+.container-custom {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+  box-sizing: border-box;
+}
+
+@media (min-width: 640px) {
   .container-custom {
-    width: 100%;
-    max-width: 1080px;
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 1.25rem;
-    padding-right: 1.25rem;
+    padding-inline: 2rem;
   }
+}
 
-  @media (min-width: 640px) {
-    .container-custom {
-      padding-left: 2rem;
-      padding-right: 2rem;
-    }
-  }
+.mono {
+  font-family: var(--font-mono);
+  font-feature-settings: "liga" 0;
+}
 
-  @media (min-width: 1024px) {
-    .container-custom {
-      padding-left: 2.5rem;
-      padding-right: 2.5rem;
-    }
-  }
+/* Primary Button Utility */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  padding: 0.625rem 1.25rem;
+  border-radius: 0.75rem;
+  background-color: var(--color-accent);
+  color: var(--color-accent-ink);
+  font-size: 0.875rem;
+  font-weight: 600;
+  min-height: 44px;
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+  transition-property: transform, opacity;
+  transition-duration: var(--dur-short);
+  transition-timing-function: var(--ease-out);
+}
 
-  .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 font-semibold px-5 py-2.5 min-h-[44px] rounded-xl text-sm transition-all duration-200 ease-out active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent shadow-sm;
-    background-color: var(--accent);
-    color: var(--text-on-accent);
-  }
+.btn-primary:hover {
+  opacity: 0.92;
+}
+
+@media (prefers-reduced-motion: no-preference) {
   .btn-primary:hover {
-    background-color: var(--accent-light);
+    transform: translateY(-1px);
   }
+}
 
-  .btn-secondary {
-    @apply inline-flex items-center justify-center gap-2 border border-border bg-bg-secondary text-text-primary px-5 py-2.5 min-h-[44px] rounded-xl font-medium text-sm hover:border-accent hover:text-accent transition-all duration-200 ease-out active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent shadow-sm;
-  }
+/* Secondary Button Utility */
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  padding: 0.625rem 1.25rem;
+  border-radius: 0.75rem;
+  background-color: var(--color-paper-2);
+  border: 1px solid var(--color-rule);
+  color: var(--color-ink);
+  font-size: 0.875rem;
+  font-weight: 600;
+  min-height: 44px;
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+  transition-property: border-color, color, background-color, transform;
+  transition-duration: var(--dur-short);
+  transition-timing-function: var(--ease-out);
+}
 
-  .card-surface {
-    @apply bg-bg-secondary border border-border rounded-2xl shadow-sm transition-all duration-200;
-  }
+.btn-secondary:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
 
-  .link-underline {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
+@media (prefers-reduced-motion: no-preference) {
+  .btn-secondary:hover {
+    transform: translateY(-1px);
   }
+}
 
-  .link-underline::after {
-    content: "";
-    position: absolute;
-    bottom: -2px;
-    left: 0;
-    width: 100%;
-    height: 1.5px;
-    background-color: var(--accent);
-    transform: scaleX(0);
-    transform-origin: right;
-    transition: transform 0.25s cubic-bezier(0.23, 1, 0.32, 1);
-  }
+/* Systems hairline card style */
+.hairline-card {
+  border: 1px solid var(--color-rule);
+  background-color: var(--color-paper-2);
+  color: var(--color-ink);
+  border-radius: var(--radius-card);
+  transition-property: border-color, background-color, transform;
+  transition-duration: var(--dur-short);
+  transition-timing-function: var(--ease-out);
+}
 
-  .link-underline:hover::after,
-  .group:hover .link-underline::after {
-    transform: scaleX(1);
-    transform-origin: left;
-  }
+.hairline-card:hover {
+  border-color: var(--color-accent);
+}
 
-  @media (hover: hover) and (pointer: fine) {
-    .hover-lift {
-      transition: transform 200ms cubic-bezier(0.23, 1, 0.32, 1), box-shadow 200ms ease, border-color 200ms ease;
-    }
-    .hover-lift:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.06), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
-    }
-  }
+/* Underline animation for links */
+.link-underline {
+  background-image: linear-gradient(var(--color-accent), var(--color-accent));
+  background-size: 0% 1px;
+  background-position: 0% 100%;
+  background-repeat: no-repeat;
+  transition: background-size var(--dur-short) var(--ease-out);
+}
 
-  @media (prefers-reduced-motion: reduce) {
-    html {
-      scroll-behavior: auto;
-    }
-    * {
-      animation-duration: 0.01ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
-    }
-  }
+.link-underline:hover {
+  background-size: 100% 1px;
+}
+
+/* Incident post-mortem callout container */
+.incident-card {
+  border: 1px solid var(--color-incident);
+  background-color: var(--color-incident-bg);
+  color: var(--color-ink);
+}
+
+.incident-badge {
+  color: var(--color-incident);
 }

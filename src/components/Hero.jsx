@@ -4,19 +4,7 @@ import { capturePageView, captureDownload } from "../lib/posthog";
 import { GithubIcon, LinkedinIcon } from "./icons";
 import { FileText, ArrowUpRight, ArrowDown } from "lucide-react";
 import { PERSONAL_INFO } from "../data/portfolioContent";
-
-const fadeUp = {
-  hidden: { opacity: 0, y: 16 },
-  visible: (i = 0) => ({
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.5,
-      ease: [0.22, 1, 0.36, 1],
-      delay: i * 0.08,
-    },
-  }),
-};
+import { fadeUp, staggerContainer } from "../lib/animations";
 
 export default function Hero() {
   const [imgError, setImgError] = useState(false);
@@ -29,7 +17,7 @@ export default function Hero() {
     e.preventDefault();
     const el = document.getElementById("projects");
     if (el) {
-      const topOffset = el.getBoundingClientRect().top + window.pageYOffset - 100;
+      const topOffset = el.getBoundingClientRect().top + window.pageYOffset - 72;
       window.scrollTo({ top: topOffset, behavior: "smooth" });
     }
   };
@@ -37,96 +25,77 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative overflow-hidden"
-      style={{ minHeight: "100svh", paddingTop: "clamp(96px, 12vh, 128px)", paddingBottom: "clamp(48px, 8vh, 80px)" }}
+      className="relative w-full overflow-x-clip bg-bg-primary flex flex-col items-center justify-between px-4 sm:px-6 select-none"
+      style={{
+        minHeight: "100svh",
+        paddingTop: "clamp(96px, 13vh, 136px)",
+        paddingBottom: "clamp(24px, 4vh, 44px)",
+      }}
     >
-      <div className="container-custom max-w-4xl mx-auto flex flex-col items-center justify-center text-center" style={{ minHeight: "calc(100svh - clamp(96px, 12vh, 128px) - clamp(48px, 8vh, 80px))" }}>
-        <div className="space-y-6 sm:space-y-7">
-
-          {/* Circular Portrait with Static Sage Backdrop */}
+      <div className="container max-w-4xl mx-auto my-auto px-4 sm:px-6 flex flex-col items-center text-center">
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={staggerContainer}
+          className="space-y-6 sm:space-y-7 flex flex-col items-center"
+        >
+          {/* Photo and photo size from main branch */}
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.4, ease: "easeOut" }}
-            className="inline-block mx-auto select-none"
+            variants={fadeUp}
+            className="avatar rounded-full overflow-hidden relative mx-auto ring-2 ring-emerald-700/15 dark:ring-emerald-400/20 shadow-md shrink-0 select-none"
+            style={{
+              width: "clamp(190px, 22vw, 248px)",
+              aspectRatio: "1 / 1",
+              borderRadius: "9999px",
+              overflow: "hidden",
+              background: "#E4F1EA",
+              boxShadow: "0 10px 28px -10px rgb(0 0 0 / .14)",
+            }}
           >
-            <div
-              className="avatar rounded-full overflow-hidden relative mx-auto ring-2 ring-emerald-700/15 dark:ring-emerald-400/20"
-              style={{
-                width: "clamp(190px, 22vw, 248px)",
-                aspectRatio: "1 / 1",
-                borderRadius: "9999px",
-                overflow: "hidden",
-                background: "#E4F1EA",
-                boxShadow: "0 10px 28px -10px rgb(0 0 0 / .14)",
-              }}
-            >
-              {!imgError ? (
-                <img
-                  src={PERSONAL_INFO.heroImage || "/hero-image.webp"}
-                  alt={`Portrait of ${PERSONAL_INFO.name}`}
-                  onError={() => setImgError(true)}
-                  className="w-full h-full block scale-105 object-cover object-top"
-                  loading="eager"
-                  decoding="async"
-                />
-              ) : (
-                <div className="w-full h-full flex flex-col items-center justify-center relative z-10 text-text-primary">
-                  <span className="text-4xl font-serif font-bold">PN</span>
-                  <span className="text-xs opacity-90 mt-1 font-sans">{PERSONAL_INFO.name}</span>
-                </div>
-              )}
-            </div>
+            {!imgError ? (
+              <img
+                src={PERSONAL_INFO.heroImage || "/hero-image.webp"}
+                alt={`Portrait of ${PERSONAL_INFO.name}`}
+                onError={() => setImgError(true)}
+                className="w-full h-full block scale-105 object-cover object-top"
+                loading="eager"
+                decoding="async"
+              />
+            ) : (
+              <div className="w-full h-full flex flex-col items-center justify-center relative z-10 text-text-primary">
+                <span className="text-4xl font-serif font-bold">PN</span>
+                <span className="text-xs opacity-90 mt-1 font-sans">{PERSONAL_INFO.name}</span>
+              </div>
+            )}
           </motion.div>
 
-          {/* Name + Tagline */}
-          <div className="space-y-3 sm:space-y-3.5">
-            <motion.h1
-              custom={1}
-              initial="hidden"
-              animate="visible"
-              variants={fadeUp}
-              className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-text-primary leading-[1.1]"
-            >
+          {/* Name, size, and position */}
+          <motion.div variants={fadeUp} className="w-full flex flex-col items-center text-center">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-text-primary leading-[1.1] text-center mx-auto">
               {PERSONAL_INFO.name}
-            </motion.h1>
+            </h1>
+          </motion.div>
 
-            <motion.p
-              custom={2}
-              initial="hidden"
-              animate="visible"
-              variants={fadeUp}
-              className="font-sans text-base sm:text-lg md:text-xl text-text-secondary leading-relaxed font-normal max-w-2xl mx-auto"
-            >
-              Software Developer building scalable full-stack web apps, high-throughput Python APIs, and automated developer tools.
-            </motion.p>
-
-            {/* Status line — not a boxed block */}
-            <motion.p
-              custom={3}
-              initial="hidden"
-              animate="visible"
-              variants={fadeUp}
-              className="text-sm sm:text-base text-text-secondary inline-flex flex-wrap items-center justify-center gap-x-2.5 gap-y-1.5"
-            >
-              <span className="inline-flex items-center gap-1.5 text-accent font-medium">
-                <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
-                Available immediately
-              </span>
-              <span className="text-border select-none" aria-hidden="true">·</span>
-              <span>India (Open to Hybrid &amp; Relocation)</span>
-              <span className="text-border select-none" aria-hidden="true">·</span>
-              <span className="font-mono font-medium">Python · FastAPI · React · PostgreSQL · Docker</span>
-            </motion.p>
-          </div>
-
-          {/* Action Bar: View Resume (primary) + See Projects (secondary) + GitHub + LinkedIn */}
-          <motion.div
-            custom={4}
-            initial="hidden"
-            animate="visible"
+          {/* Text below name with balanced width matching max-w-4xl section */}
+          <motion.p
             variants={fadeUp}
-            className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 pt-2"
+            className="text-base sm:text-lg md:text-xl text-text-secondary leading-relaxed max-w-2xl mx-auto font-normal px-2"
+          >
+            {PERSONAL_INFO.shortBio || "Software Developer building scalable full-stack web apps, high-throughput Python APIs, and automated developer tools."}
+          </motion.p>
+
+          {/* Recruiter-friendly availability badge */}
+          <motion.div variants={fadeUp} className="pt-0.5">
+            <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono font-medium text-accent bg-accent/10 border border-accent/20">
+              <span className="w-2 h-2 rounded-full bg-accent animate-pulse" aria-hidden="true" />
+              <span>Available immediately · Open to Remote &amp; Hybrid Roles</span>
+            </span>
+          </motion.div>
+
+          {/* Action Row: View Resume + Explore Projects + Socials */}
+          <motion.div
+            variants={fadeUp}
+            className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 pt-1"
           >
             <a
               href={PERSONAL_INFO.resumePath}
@@ -135,9 +104,9 @@ export default function Hero() {
               onClick={() => captureDownload()}
               className="btn-primary"
             >
-              <FileText size={17} />
+              <FileText size={16} aria-hidden="true" />
               <span>View Resume</span>
-              <ArrowUpRight size={15} />
+              <ArrowUpRight size={14} aria-hidden="true" />
             </a>
 
             <a
@@ -145,67 +114,32 @@ export default function Hero() {
               onClick={scrollToProjects}
               className="btn-secondary"
             >
-              <span>See Projects</span>
-              <ArrowDown size={16} className="text-accent" />
+              <span>Explore Projects</span>
+              <ArrowDown size={14} className="text-accent" aria-hidden="true" />
             </a>
 
-            <a
-              href={PERSONAL_INFO.githubUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="GitHub Profile"
-              title="GitHub Profile"
-              className="w-11 h-11 min-w-[44px] min-h-[44px] rounded-xl border border-border/80 bg-bg-secondary/80 hover:bg-bg-secondary text-text-primary hover:text-accent transition-colors shadow-sm flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-            >
-              <GithubIcon size={18} />
-            </a>
-
-            <a
-              href={PERSONAL_INFO.linkedinUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="LinkedIn Profile"
-              title="LinkedIn Profile"
-              className="w-11 h-11 min-w-[44px] min-h-[44px] rounded-xl border border-border/80 bg-bg-secondary/80 hover:bg-bg-secondary text-text-primary hover:text-accent transition-colors shadow-sm flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-            >
-              <LinkedinIcon size={18} />
-            </a>
-          </motion.div>
-
-          {/* Subtle Scroll Indicator */}
-          <motion.div
-            custom={5}
-            initial="hidden"
-            animate="visible"
-            variants={fadeUp}
-            className="pt-6 sm:pt-8 flex flex-col items-center justify-center"
-          >
-            <a
-              href="#about"
-              onClick={(e) => {
-                e.preventDefault();
-                const el = document.getElementById("about");
-                if (el) {
-                  const topOffset = el.getBoundingClientRect().top + window.pageYOffset - 90;
-                  window.scrollTo({ top: topOffset, behavior: "smooth" });
-                }
-              }}
-              className="group inline-flex flex-col items-center gap-1.5 text-text-secondary/70 hover:text-accent transition-colors duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-full py-1.5 px-3 select-none"
-              aria-label="Scroll to explore portfolio"
-            >
-              <span className="font-mono text-[10px] sm:text-[11px] font-semibold tracking-[0.2em] uppercase">
-                SCROLL TO EXPLORE
-              </span>
-              <motion.div
-                animate={{ y: [0, 4, 0] }}
-                transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+            <div className="flex items-center gap-2">
+              <a
+                href={PERSONAL_INFO.githubUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="GitHub Profile"
+                className="w-11 h-11 rounded-lg border border-border bg-bg-secondary hover:bg-bg-tertiary text-text-primary hover:text-accent transition-colors flex items-center justify-center min-w-[44px] min-h-[44px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
               >
-                <ArrowDown size={14} className="text-text-secondary/60 group-hover:text-accent transition-colors" />
-              </motion.div>
-            </a>
+                <GithubIcon size={18} />
+              </a>
+              <a
+                href={PERSONAL_INFO.linkedinUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn Profile"
+                className="w-11 h-11 rounded-lg border border-border bg-bg-secondary hover:bg-bg-tertiary text-text-primary hover:text-accent transition-colors flex items-center justify-center min-w-[44px] min-h-[44px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+              >
+                <LinkedinIcon size={18} />
+              </a>
+            </div>
           </motion.div>
-
-        </div>
+        </motion.div>
       </div>
     </section>
   );

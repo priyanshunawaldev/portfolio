@@ -222,7 +222,7 @@ export default function Header({ isDark, onToggleTheme }) {
               <div className="h-5 sm:h-6 w-px bg-border/80 mx-2 sm:mx-2.5 shrink-0" aria-hidden="true" />
 
               {/* Desktop Dock Links with Sliding Pill Indicator */}
-              <nav ref={navRef} aria-label="Main Navigation" className="hidden md:flex items-center gap-0.5 relative">
+              <nav ref={navRef} aria-label="Main Navigation" className="hidden lg:flex items-center gap-0.5 relative">
                 {/* Sliding pill background */}
                 {pillStyle.width > 0 && (
                   <div
@@ -268,27 +268,29 @@ export default function Header({ isDark, onToggleTheme }) {
                 </a>
               </nav>
 
-              {/* Mobile Dock Content */}
-              <div className="flex md:hidden items-center gap-1">
-                <a
-                  href="#hero"
-                  onClick={(e) => scrollToSection(e, "hero")}
-                  className="min-h-[44px] inline-flex items-center text-xs font-medium text-text-secondary hover:text-text-primary px-2 py-1 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-                >
-                  Home
-                </a>
-                <span className="text-border/60 text-xs select-none" aria-hidden="true">|</span>
+              {/* Mobile / Tablet Dock Content */}
+              <div className="flex lg:hidden items-center gap-0.5">
                 <a
                   href="#projects"
                   onClick={(e) => scrollToSection(e, "projects")}
-                  className="min-h-[44px] inline-flex items-center text-xs font-medium text-text-secondary hover:text-text-primary px-2 py-1 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                  className="hidden sm:inline-flex min-h-[44px] items-center text-xs font-medium text-text-secondary hover:text-text-primary px-2 py-1 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
                 >
                   Projects
                 </a>
                 <a
+                  href={PERSONAL_INFO.resumePath || "/Priyanshu_Nawal_Resume.pdf"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => captureDownload()}
+                  className="hidden sm:inline-flex min-h-[44px] items-center gap-0.5 text-xs font-semibold text-accent hover:text-accent-light px-2 py-1 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                >
+                  <span>Resume</span>
+                  <ArrowUpRight size={12} />
+                </a>
+                <a
                   href="#contact"
                   onClick={(e) => scrollToSection(e, "contact")}
-                  className="min-h-[44px] inline-flex items-center text-xs font-medium text-text-secondary hover:text-text-primary px-2 py-1 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                  className="hidden sm:inline-flex min-h-[44px] items-center text-xs font-medium text-text-secondary hover:text-text-primary px-2 py-1 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
                 >
                   Contact
                 </a>
@@ -297,7 +299,7 @@ export default function Header({ isDark, onToggleTheme }) {
                   onClick={() => setIsMenuOpen(!isMenuOpen)}
                   aria-label={isMenuOpen ? "Close menu" : "Open menu"}
                   aria-expanded={isMenuOpen}
-                  className="w-11 h-11 min-w-[44px] min-h-[44px] rounded-full flex items-center justify-center text-text-secondary hover:text-text-primary cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ml-0.5"
+                  className="w-10 h-10 min-w-[40px] min-h-[40px] rounded-full flex items-center justify-center text-text-secondary hover:text-text-primary cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
                 >
                   {isMenuOpen ? <X size={18} /> : <Menu size={18} />}
                 </button>
@@ -320,7 +322,7 @@ export default function Header({ isDark, onToggleTheme }) {
       {/* Mobile Drawer */}
       <AnimatePresence>
         {isMenuOpen && !isCaseStudy && (
-          <div className="fixed inset-0 top-16 z-40 md:hidden pointer-events-auto">
+          <div className="fixed inset-0 top-16 z-40 lg:hidden pointer-events-auto">
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}

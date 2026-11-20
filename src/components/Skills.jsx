@@ -52,22 +52,22 @@ export default function Skills() {
       id="skills"
       className="py-16 sm:py-24 relative scroll-mt-28 sm:scroll-mt-32"
     >
-      <div className="container-custom space-y-10">
+      <div className="container max-w-4xl mx-auto px-4 sm:px-6 space-y-10">
         {/* Centered Heading */}
         <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-60px 0px" }}
           variants={fadeUp}
-          className="text-center"
+          className="text-center w-full"
         >
-          <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-text-primary tracking-tight">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-text-primary tracking-tight text-center mx-auto">
             {SKILLS_CONTENT.sectionTitle}
           </h2>
         </motion.div>
 
         {/* Structured Grid with Clear Depth Signals */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full mx-auto">
           {SKILLS_CONTENT.categories.map((cat, catIdx) => {
             const isPrimary = cat.depth === "primary" || (cat.category && cat.category.includes("Primary"));
 

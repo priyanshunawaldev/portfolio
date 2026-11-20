@@ -2,18 +2,18 @@ export const PROJECTS = [
   {
     id: "pulse-engine",
     slug: "pulse-engine",
-    name: "PulseEngine — High-Throughput Financial Ledger with Zero-Deadlock Reconciliation",
+    name: "PulseEngine — High-Throughput Financial Ledger with Concurrent Transfer Safety",
     shortName: "PulseEngine",
     isFlagship: true,
     category: "Backend & Financial Systems",
     tagline:
       "A distributed double-entry financial ledger built in Python & FastAPI to handle concurrent transfers with mathematical zero-sum guarantees.",
-    highlight: "Zero-Sum Ledger (∑Δ = 0) · Ascending UUID Locks · Locust 1,000 req/s on PG16 · Redis SHA-256 Idempotency",
+    highlight: "Zero-Sum Ledger (∑Δ = 0) · Ascending UUID Locks · Locust 1,000 req/s on PG16 · Atomic Redis Idempotency",
     metrics: [
       "Fixed-point NUMERIC(18, 4) arithmetic",
-      "Deadlock-free ascending UUID row locking",
-      "Cryptographic SHA-256 idempotency gate",
-      "Benchmarked on PostgreSQL 16 at 1,000 req/sec",
+      "Deterministic ascending UUID row locking",
+      "Atomic Redis SHA-256 idempotency gate",
+      "Locust load-tested on PostgreSQL 16 (1,000 req/s)",
     ],
     description:
       "An asynchronous backend transaction engine engineered with Python 3.12, FastAPI, and PostgreSQL 16. Enforces strict zero-sum conservation across multi-legged entries, prevents duplicate payments during network retries, and eliminates circular deadlock cycles during simultaneous mutual transfers.",
@@ -40,14 +40,14 @@ export const PROJECTS = [
       testCoverage: "88% Automated Coverage",
       testSuiteStats: "Comprehensive async suite (pytest-asyncio + PostgreSQL rollback tests)",
       ciStatus: "Passing (GitHub Actions CI/CD)",
-      benchmarkStats: "Benchmarked on PostgreSQL 16 · Locust 1,000 req/sec · 0 balance invariant violations · 8-core Linux / 16GB RAM",
+      benchmarkStats: "Benchmarked on PostgreSQL 16 via Locust: 1,000 req/sec across 200 concurrent simulated users with 0 balance discrepancy violations (8-core Linux / 16GB RAM)",
       balanceInvariant: "Mathematical zero-sum balance invariant: sum(debits) + sum(credits) == 0",
       swaggerDocUrl: "https://github.com/priyanshunawaldev/pulse-engine#api-documentation",
     },
     impactMetrics: [
       { label: "Balance Accuracy", value: "100%", detail: "Zero money drift across transfers" },
       { label: "Decimal Math", value: "Fixed-Point", detail: "Zero rounding errors" },
-      { label: "Deadlock Rate", value: "0 Freezes", detail: "Safe concurrent transfers" },
+      { label: "Deadlock Safety", value: "Ordered Locks", detail: "Ascending UUID row locking" },
       { label: "Test Coverage", value: "88%", detail: "Automated async test suite" },
     ],
     engineeringBreakdown: {
@@ -55,15 +55,15 @@ export const PROJECTS = [
       customEngineered: [
         {
           module: "Deterministic Ascending Lock Ordering",
-          description: "Sorted account UUIDs strictly in ascending order (min(A,B) before max(A,B)) prior to issuing SELECT ... FOR UPDATE row locks, mathematically proving zero circular deadlock wait graphs under concurrent bidirectional transfers.",
+          description: "Sorted account UUIDs strictly in ascending order (min(A,B) before max(A,B)) prior to issuing SELECT ... FOR UPDATE row locks, eliminating circular wait cycles under concurrent bidirectional transfers.",
         },
         {
           module: "Fixed-Point Zero-Sum Ledger Invariant",
-          description: "Engineered strict two-legged balance conservation with Python Decimal and PostgreSQL NUMERIC(18, 4) (sum(debits) + sum(credits) == 0.0000), eliminating floating-point drift across millions of micro-transactions.",
+          description: "Engineered strict two-legged balance conservation with Python Decimal and PostgreSQL NUMERIC(18, 4) (sum(debits) + sum(credits) == 0.0000), eliminating floating-point drift across micro-transactions.",
         },
         {
-          module: "Pre-Database SHA-256 Idempotency Pipeline",
-          description: "Designed a Redis SHA-256 payload fingerprinting interceptor that verifies client Idempotency-Keys in <1ms, short-circuiting network retries before acquiring PostgreSQL connection pool slots or row locks.",
+          module: "Atomic SHA-256 Idempotency Interceptor",
+          description: "Designed a Redis SHA-256 payload reservation gate using atomic SET NX keys, short-circuiting network retries and concurrent in-flight requests before acquiring PostgreSQL connection pool slots or row locks.",
         },
         {
           module: "Transactional Webhook Outbox Pattern",
@@ -90,8 +90,8 @@ export const PROJECTS = [
       ],
     },
     dumbestBug: {
-      title: "The Ghost Greenlet in the Serialization Machine",
-      summary: "A 4-hour Sunday existential crisis where I thought PostgreSQL was violating serializability, only to find an ORM lazy-loader biting me.",
+      title: "SQLAlchemy 2.0 Async: Lazy-Loading Panic Outside Greenlet Context",
+      summary: "A 4-hour Sunday debugging session where an async ORM relationship serialization triggered greenlet panics during concurrent load testing.",
       warStory:
         "Under concurrent Locust load testing (200+ simulated users), the transfer endpoint randomly started vomiting 500 errors. The database logs showed all transactions were committing cleanly, yet the API gateway kept aborting. I spent 4 hours convinced I had discovered an obscure PostgreSQL 16 edge case in serializable isolation.\n\nTurns out, Pydantic's response schema was serializing transaction.entries after the async with session.begin() block had already terminated. In SQLAlchemy 2.0's async model, touching an unloaded relationship outside an active greenlet context doesn't return null or empty—it violently panics with MissingGreenlet: greenlet_spawn has not been called. The fix? A single line: .options(selectinload(Transaction.entries)) during query building. A brutal reminder that in async Python, lazy loading is an architectural landmine.",
     },
@@ -99,41 +99,59 @@ export const PROJECTS = [
       {
         fileName: "app/core/idempotency.py",
         language: "python",
-        title: "Cryptographic Idempotency Interceptor (Redis SHA-256 Gate)",
-        description: "Catches duplicate client retries in <1ms before acquiring any database row locks.",
+        title: "Atomic Idempotency Interceptor (Two-Phase Redis Gate)",
+        description: "Coordinates concurrent retries using atomic SET NX reservation before acquiring database connection pool slots or row locks.",
         code: `from fastapi import Request, HTTPException, status
 import hashlib, json
 from app.core.redis import redis_client
 
-async def verify_idempotency_key(request: Request, key: str, payload: dict) -> dict | None:
+async def acquire_idempotency_lock(request: Request, key: str, payload: dict) -> dict | None:
     """
-    Guarantees zero duplicate debit transactions during network retries.
-    Computes a deterministic SHA-256 fingerprint of the payload and caches the receipt in Redis.
+    Guarantees concurrency safety during network retries.
+    Uses atomic SET NX to reserve the idempotency key before transfer execution,
+    preventing duplicate debit operations under simultaneous concurrent requests.
     """
     payload_hash = hashlib.sha256(
         json.dumps(payload, sort_keys=True).encode()
     ).hexdigest()
     redis_key = f"idempotency:{key}"
     
-    # Fast path: check Redis cache for previously completed receipt
+    # Fast path: check for completed transaction receipt or in-flight lock
     cached = await redis_client.get(redis_key)
     if cached:
         data = json.loads(cached)
-        if data["fingerprint"] != payload_hash:
+        if data.get("status") == "PROCESSING":
             raise HTTPException(
                 status_code=status.HTTP_409_CONFLICT,
+                detail="Concurrent transaction in progress with this idempotency key."
+            )
+        if data.get("fingerprint") != payload_hash:
+            raise HTTPException(
+                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
                 detail="Idempotency key reused with differing transfer payload."
             )
-        # Return 0ms cached receipt without querying Postgres or locking rows
-        return data["response"]
+        # Return committed receipt without querying Postgres or acquiring row locks
+        return data.get("response")
     
+    # Atomic reservation with TTL to coordinate concurrent in-flight requests
+    reserved = await redis_client.set(
+        redis_key,
+        json.dumps({"status": "PROCESSING", "fingerprint": payload_hash}),
+        nx=True,
+        ex=60  # 60s processing timeout window
+    )
+    if not reserved:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail="Concurrent request already processing this idempotency key."
+        )
     return None`,
       },
       {
         fileName: "app/services/ledger.py",
         language: "python",
-        title: "Deadlock-Free Transfer with Ascending UUID Row Locks",
-        description: "Locks accounts strictly in sorted order min(A,B) to eliminate concurrent deadlock cycles.",
+        title: "Concurrent Transfer with Deterministic Ascending UUID Row Locks",
+        description: "Locks accounts strictly in sorted order min(A,B) to eliminate circular wait cycles in bidirectional transfers.",
         code: `from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 from app.models.account import Account
@@ -256,10 +274,10 @@ async def execute_transfer(
     contributions: [
       "Enforced mathematical zero-sum conservation (sum of debits equals sum of credits) on every transaction.",
       "Prevented floating-point arithmetic rounding errors by using NUMERIC(18, 4) fixed-point fields.",
-      "Implemented ascending UUID row-locking order (min(A,B)) to mathematically eliminate circular deadlock waits.",
-      "Engineered a Redis SHA-256 cryptographic idempotency gate to catch in-flight retries in <1ms.",
+      "Implemented ascending UUID row-locking order (min(A,B)) to eliminate circular wait cycles in concurrent transfers.",
+      "Engineered an atomic Redis SHA-256 idempotency interceptor to coordinate in-flight retries.",
       "Built an asynchronous Celery webhook outbox with HMAC-SHA256 event signatures and exponential backoff.",
-      "Documented 10 production-grade postmortems in ENGINEERING_INCIDENTS_AND_LEARNINGS.md covering UUIDv7 type bugs and async ORM greenlet panics.",
+      "Documented 10 in-depth architectural postmortems and debugging analyses in ENGINEERING_INCIDENTS_AND_LEARNINGS.md covering UUIDv7 type bugs and async ORM greenlet panics.",
     ],
     architecture: [
       {
@@ -488,7 +506,7 @@ async def execute_transfer(
   {
     id: "reflex",
     slug: "reflex",
-    name: "Reflex CLI — Offline-First Developer Terminal OS with SQLite & Git Synchronization",
+    name: "Reflex CLI — Offline-First Developer Productivity Tool with SQLite & Git Synchronization",
     shortName: "Reflex CLI",
     isFlagship: true,
     category: "Developer Tools & CLI",
@@ -642,7 +660,7 @@ async def execute_transfer(
       testSuiteStats: "Evaluation on adverse weather datasets (rain, glare, nighttime)",
       ciStatus: "Research Verified",
       benchmarkStats: "Benchmarked at <45ms per frame inference latency on NVIDIA RTX 3060 across 1,000+ annotated images",
-      balanceInvariant: "Zero false-positive detections on baseline benchmark runs",
+      balanceInvariant: "Sustained <45ms frame latency budget on RTX 3060 across 1,000+ multi-weather road test frames",
       swaggerDocUrl: null,
     },
     impactMetrics: [
